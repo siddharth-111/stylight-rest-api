@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.SpringBoot.Model.Tutorial;
+import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;
 import com.example.SpringBoot.repository.TutorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class TutorialController {
         Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
 
         Tutorial tutorial = tutorialRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found Tutorial with id = " + id));
+                .orElseThrow(() -> new BadRequestException("Not found Tutorial with id = " + id));
 
         return new ResponseEntity<>(tutorial, HttpStatus.OK);
     }
