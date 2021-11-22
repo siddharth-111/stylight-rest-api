@@ -37,68 +37,68 @@ public class TutorialControllerTest {
     @MockBean
     private TutorialRepository tutorialRepository;
 
-    @Test
-    public void shouldReturnTutorial() throws Exception {
-        Tutorial tutorial = new Tutorial();
-        tutorial.setTitle("hello");
-        tutorial.setDescription("world");
-        tutorial.setPublished(false);
-
-        List<Tutorial> tutorials = new ArrayList<Tutorial>();
-        tutorials.add(tutorial);
-
-        when(tutorialRepository.findAll()).thenReturn(tutorials);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/tutorials")
-                        .accept(MediaType.APPLICATION_JSON))
-                        .andDo(print())
-                        .andExpect(status().isOk())
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("hello"))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("world"));
-    }
-
-    @Test
-    public void shouldReturnEmptyTutorial() throws Exception {
-
-        when(tutorialRepository.findAll()).thenReturn(new ArrayList<Tutorial>());
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/tutorials")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    public void shouldReturnSingleTutorial() throws Exception {
-        String title = "hello";
-
-        Tutorial tutorial = new Tutorial();
-        tutorial.setTitle("hello");
-        tutorial.setDescription("world");
-        tutorial.setPublished(false);
-
-        List<Tutorial> tutorials = new ArrayList<Tutorial>();
-        tutorials.add(tutorial);
-
-        when(tutorialRepository.findByTitleContaining(title)).thenReturn(tutorials);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/tutorials?title=" + title)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("hello"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("world"));
-    }
-
-    @Test
-    public void shouldNotReturnSingleTutorial() throws Exception {
-        String title = "hello";
-        when(tutorialRepository.findByTitleContaining(title)).thenReturn(new ArrayList<Tutorial>());
-
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/tutorials?title=" + title)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-    }
+//    @Test
+//    public void shouldReturnTutorial() throws Exception {
+//        Tutorial tutorial = new Tutorial();
+//        tutorial.setTitle("hello");
+//        tutorial.setDescription("world");
+//        tutorial.setPublished(false);
+//
+//        List<Tutorial> tutorials = new ArrayList<Tutorial>();
+//        tutorials.add(tutorial);
+//
+//        when(tutorialRepository.findAll()).thenReturn(tutorials);
+//        this.mockMvc.perform(MockMvcRequestBuilders
+//                        .get("/api/tutorials")
+//                        .accept(MediaType.APPLICATION_JSON))
+//                        .andDo(print())
+//                        .andExpect(status().isOk())
+//                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("hello"))
+//                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("world"));
+//    }
+//
+//    @Test
+//    public void shouldReturnEmptyTutorial() throws Exception {
+//
+//        when(tutorialRepository.findAll()).thenReturn(new ArrayList<Tutorial>());
+//        this.mockMvc.perform(MockMvcRequestBuilders
+//                        .get("/api/tutorials")
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isNoContent());
+//    }
+//
+//    @Test
+//    public void shouldReturnSingleTutorial() throws Exception {
+//        String title = "hello";
+//
+//        Tutorial tutorial = new Tutorial();
+//        tutorial.setTitle("hello");
+//        tutorial.setDescription("world");
+//        tutorial.setPublished(false);
+//
+//        List<Tutorial> tutorials = new ArrayList<Tutorial>();
+//        tutorials.add(tutorial);
+//
+//        when(tutorialRepository.findByTitleContaining(title)).thenReturn(tutorials);
+//        this.mockMvc.perform(MockMvcRequestBuilders
+//                        .get("/api/tutorials?title=" + title)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("hello"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("world"));
+//    }
+//
+//    @Test
+//    public void shouldNotReturnSingleTutorial() throws Exception {
+//        String title = "hello";
+//        when(tutorialRepository.findByTitleContaining(title)).thenReturn(new ArrayList<Tutorial>());
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders
+//                        .get("/api/tutorials?title=" + title)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isNoContent());
+//    }
 }
