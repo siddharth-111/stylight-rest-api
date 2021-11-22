@@ -30,12 +30,24 @@ public class ExchangeRatesController {
         }
     }
 
-    @GetMapping("/exchange-rate/history/{yyyy}/{mm}/{dd}")
+    @GetMapping("/exchange-rate/history/daily/{yyyy}/{mm}/{dd}")
     public ResponseEntity<List<ExchangeRateResponse>> getExchangeRateForDate(@PathVariable("yyyy") String year, @PathVariable("mm") String month,
                                                                              @PathVariable("dd") String day){
         try
         {
             return new ResponseEntity<>(exchangeRatesService.getExchangeRateForDate(year, month, day), HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/exchange-rate/history/monthly/{yyyy}/{mm}")
+    public ResponseEntity<List<ExchangeRateResponse>> getExchangeRateForMonth(@PathVariable("yyyy") String year, @PathVariable("mm") String month){
+        try
+        {
+            return new ResponseEntity<>(exchangeRatesService.getExchangeRateForMonth(Integer.parseInt(year), Integer.parseInt(month)), HttpStatus.OK);
         }
         catch (Exception e)
         {

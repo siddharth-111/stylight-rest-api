@@ -55,6 +55,14 @@ public class ExchangeRateServiceImpl implements ExchangeRatesService{
 
         return exchangeRateResponseList;
     }
+
+    @Override
+    public List<ExchangeRateResponse> getExchangeRateForMonth(int year, int month)  throws Exception {
+
+//        List<ExchangeRatesDAO> exchangeRatesDAOS = exchangeRateRepository.findAllByYearAndMonth(year, month);
+        return null;
+    }
+
     @Override
     public ExchangeRateResponse getExchangeRates(String date, String baseCurrency, String targetCurrency)  throws Exception  {
 

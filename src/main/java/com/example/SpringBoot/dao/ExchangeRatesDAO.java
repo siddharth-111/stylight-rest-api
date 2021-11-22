@@ -30,7 +30,7 @@ public class ExchangeRatesDAO {
 
     public ExchangeRatesDAO(String date, String baseCurrency, String targetCurrency)  throws Exception
     {
-        this.date = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+        this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
         this.baseCurrency = baseCurrency;
         this.targetCurrency = targetCurrency;
     }
@@ -48,7 +48,7 @@ public class ExchangeRatesDAO {
     }
 
     public void setDate(String date) throws Exception {
-        this.date = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+        this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
     }
 
     public String getBaseCurrency() {
