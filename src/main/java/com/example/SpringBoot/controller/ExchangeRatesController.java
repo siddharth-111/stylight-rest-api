@@ -1,7 +1,7 @@
 package com.example.SpringBoot.controller;
 
 import com.example.SpringBoot.Model.ExchangeRateResponse;
-import com.example.SpringBoot.service.ExchangeRatesService;
+import com.example.SpringBoot.service.serviceInterface.ExchangeRatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

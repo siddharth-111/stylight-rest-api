@@ -1,15 +1,12 @@
 package com.example.SpringBoot.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.SpringBoot.Model.Tutorial;
 import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;
 import com.example.SpringBoot.repository.TutorialRepository;
-import com.example.SpringBoot.service.TutorialService;
-import javassist.NotFoundException;
+import com.example.SpringBoot.service.serviceInterface.TutorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

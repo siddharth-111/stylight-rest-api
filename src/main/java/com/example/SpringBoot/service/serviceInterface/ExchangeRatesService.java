@@ -1,4 +1,4 @@
-package com.example.SpringBoot.service;
+package com.example.SpringBoot.service.serviceInterface;
 
 import com.example.SpringBoot.Model.ExchangeRateResponse;
 

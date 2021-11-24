@@ -1,26 +1,24 @@
-package com.example.SpringBoot.service;
+package com.example.SpringBoot.service.serviceImpl;
 
 import com.example.SpringBoot.Model.ExchangeRateResponse;
 import com.example.SpringBoot.Model.ExchangeRatesAPIResponse;
 import com.example.SpringBoot.Model.Trends;
 import com.example.SpringBoot.dao.ExchangeRatesDAO;
 import com.example.SpringBoot.repository.ExchangeRateRepository;
-import com.example.SpringBoot.repository.TutorialRepository;
+import com.example.SpringBoot.service.serviceInterface.ExchangeRatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.*;
 
 @Service
-public class ExchangeRateServiceImpl implements ExchangeRatesService{
+public class ExchangeRateServiceImpl implements ExchangeRatesService {
 
     public String ACCESS_KEY_TOKEN = "e146203ebb0b65ff5cf4d4b750c6b9f5";
     public String EXCHANGE_RATE_BASE_URL = "http://api.exchangeratesapi.io/v1/";
