@@ -8,6 +8,8 @@ import com.example.SpringBoot.repository.ExchangeRateRepository;
 import com.example.SpringBoot.service.serviceInterface.ExchangeRatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -89,11 +91,14 @@ public class ExchangeRateServiceImpl implements ExchangeRatesService {
 
     private ExchangeRatesAPIResponse getExchangeRateAPIResponse(String date, String baseCurrency, String targetCurrency)
     {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("access_key", ACCESS_KEY_TOKEN);
+        queryParams.add("symbols", baseCurrency + "," + targetCurrency);
+
         Mono<ExchangeRatesAPIResponse> mono = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/" + date)
-                        .queryParam("access_key", ACCESS_KEY_TOKEN)
-                        .queryParam("symbols", baseCurrency + "," + targetCurrency)
+                        .queryParams(queryParams)
                         .build())
                 .retrieve()
                 .bodyToMono(ExchangeRatesAPIResponse.class);

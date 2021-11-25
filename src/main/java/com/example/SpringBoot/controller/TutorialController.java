@@ -5,7 +5,6 @@ import java.util.List;
 import com.example.SpringBoot.Model.Tutorial;
 import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;
-import com.example.SpringBoot.repository.TutorialRepository;
 import com.example.SpringBoot.service.serviceInterface.TutorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class TutorialController {
-
-    @Autowired
-    TutorialRepository tutorialRepository;
 
     @Autowired
     TutorialService tutorialService;

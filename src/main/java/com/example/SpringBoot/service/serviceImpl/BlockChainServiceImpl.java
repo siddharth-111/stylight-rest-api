@@ -5,6 +5,8 @@ import com.example.SpringBoot.Model.ExchangeRatesAPIResponse;
 import com.example.SpringBoot.service.serviceInterface.BlockChainService;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -27,16 +29,19 @@ public class BlockChainServiceImpl implements BlockChainService {
         Date enteredDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
         long milliseconds = enteredDate.getTime();
 
-        return getExchangeRateAPIResponse("/blocks/" + milliseconds);
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("format", "json");
+
+        return getExchangeRateAPIResponse("/blocks/" + milliseconds, queryParams);
 
     }
 
-    private List<BlockChainResponse> getExchangeRateAPIResponse(String urlcomponent)
+    private List<BlockChainResponse> getExchangeRateAPIResponse(String urlcomponent, MultiValueMap<String, String> queryParams)
     {
         Mono<List<BlockChainResponse>> mono = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(urlcomponent)
-                        .queryParam("format", "json")
+                        .queryParams(queryParams)
                         .build())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<BlockChainResponse>>() {});
