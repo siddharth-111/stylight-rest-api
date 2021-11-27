@@ -17,7 +17,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class TutorialRepository {
+public class TutorialRepositoryTest {
 
     @Autowired
     private TutorialRepository tutorialRepository;
