@@ -19,11 +19,6 @@ public class LoginUserDetailsDAO {
     @Column(name = "active")
     private boolean active;
 
-    public enum roles {
-        ROLE_USER, ROLE_ADMIN;
-    }
-
     @Column(name = "roles")
-    @Enumerated(EnumType.STRING)
-    private roles userRole;
+    private String roles;
 }
