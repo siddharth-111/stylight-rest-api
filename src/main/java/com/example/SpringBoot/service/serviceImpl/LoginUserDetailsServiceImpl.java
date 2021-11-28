@@ -36,6 +36,17 @@ public class LoginUserDetailsServiceImpl implements LoginUserDetailsService {
         return loginUserDetails;
     }
 
+    @Override
+    public LoginUserDetails createLoginUser(LoginUserDetails loginUserDetails) throws Exception {
+
+        LoginUserDetailsDAO loginUserDetailsDAOResponse = loginUserDetailsRepository.save(convertToLoginUserDetailsDAO(loginUserDetails));
+
+        LoginUserDetails loginUserDetailsResponse = convertToLoginUserDetails(Optional.of(loginUserDetailsDAOResponse));
+        loginUserDetailsResponse.setAuthorities();
+
+        return loginUserDetailsResponse;
+    }
+
     private LoginUserDetails convertToLoginUserDetails(Optional<LoginUserDetailsDAO> loginUserDetailsDAO)
     {
         modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
@@ -44,5 +55,14 @@ public class LoginUserDetailsServiceImpl implements LoginUserDetailsService {
         LoginUserDetails loginUserDetails = modelMapper.map(convertibleUserDetailsDAO, LoginUserDetails.class);
 
         return loginUserDetails;
+    }
+
+    private LoginUserDetailsDAO convertToLoginUserDetailsDAO(LoginUserDetails loginUserDetails)
+    {
+        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
+
+        LoginUserDetailsDAO loginUserDetailsDAO = modelMapper.map(loginUserDetails, LoginUserDetailsDAO.class);
+
+        return loginUserDetailsDAO;
     }
 }

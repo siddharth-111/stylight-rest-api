@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 public class LoginUserDetails implements UserDetails {
 
     private String username;
+    private String password;
+    private boolean active;
+    private List<GrantedAuthority> authorities;
+    private String roles;
 
     public String getRoles() {
         return roles;
@@ -21,7 +25,7 @@ public class LoginUserDetails implements UserDetails {
         this.roles = roles;
     }
 
-    private String roles;
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -46,10 +50,6 @@ public class LoginUserDetails implements UserDetails {
     public void setAuthorities() {
         this.authorities = Arrays.stream(this.getRoles().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
-
-    private String password;
-    private boolean active;
-    private List<GrantedAuthority> authorities;
 
     public LoginUserDetails() {
 

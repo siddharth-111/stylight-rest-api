@@ -25,14 +25,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .httpBasic()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/api/*").hasRole("USER")
+                .antMatchers("/api/**/**").hasRole("USER")
                 .antMatchers("/h2-ui/**").permitAll()
                 .antMatchers("/").permitAll()
                 .and()
                 .formLogin();
         // this will ignore only h2-ui csrf, spring security 4+
         http.csrf().ignoringAntMatchers("/h2-ui/**");
+
+        http.csrf().disable();
         //this will allow frames with same origin which is much more safe
         http.headers().frameOptions().sameOrigin();
     }
