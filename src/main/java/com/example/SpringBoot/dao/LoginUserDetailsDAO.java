@@ -1,6 +1,8 @@
 package com.example.SpringBoot.dao;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -62,4 +64,6 @@ public class LoginUserDetailsDAO {
     @Column(name = "roles")
     private String roles;
 
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ApartmentDAO> apartments = new HashSet<>();
 }
