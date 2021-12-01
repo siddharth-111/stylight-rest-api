@@ -2,9 +2,12 @@ package com.example.SpringBoot.controller;
 
 import com.example.SpringBoot.Model.Tutorial;
 import com.example.SpringBoot.config.TestSecurityConfig;
+import com.example.SpringBoot.controller.utils.ControllerTestHelper;
 import com.example.SpringBoot.repository.TutorialRepository;
 import com.example.SpringBoot.service.serviceImpl.TutorialServiceImpl;
 import com.example.SpringBoot.service.serviceInterface.TutorialService;
+import com.example.SpringBoot.service.utils.ServiceHelper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +44,9 @@ public class TutorialControllerTest {
 
     @MockBean
     private TutorialServiceImpl tutorialService;
+
+    @Autowired
+    private ControllerTestHelper controllerTestHelper;
 
     @Test
     public void shouldReturnMultipleTutorial() throws Exception {
@@ -109,11 +115,12 @@ public class TutorialControllerTest {
         List<Tutorial> tutorials = new ArrayList<Tutorial>();
         tutorials.add(tutorial);
 
+        String json = controllerTestHelper.convertTutorialToJsonString(tutorial);
+
         when(tutorialService.createTutorial(tutorials.get(0))).thenReturn(tutorials.get(0));
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/tutorials")
-                        .queryParam("title", title)
-                        .content(tutorial)
+                        .content(json)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
