@@ -117,14 +117,13 @@ public class TutorialControllerTest {
 
         String json = controllerTestHelper.convertTutorialToJsonString(tutorial);
 
-        when(tutorialService.createTutorial(tutorials.get(0))).thenReturn(tutorials.get(0));
+        when(tutorialService.createTutorial(tutorial)).thenReturn(tutorial);
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/tutorials")
                         .content(json)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("hello"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("world"));
+                .andExpect(status().isCreated());
     }
 }
