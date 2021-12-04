@@ -1,4 +1,4 @@
-package com.example.SpringBoot.Model;
+package com.example.SpringBoot.Model.enums;
 
 public enum Trends {
     DESCENDING("descending"),

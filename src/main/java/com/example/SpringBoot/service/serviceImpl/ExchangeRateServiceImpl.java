@@ -2,7 +2,7 @@ package com.example.SpringBoot.service.serviceImpl;
 
 import com.example.SpringBoot.Model.ExchangeRateResponse;
 import com.example.SpringBoot.Model.ExchangeRatesAPIResponse;
-import com.example.SpringBoot.Model.Trends;
+import com.example.SpringBoot.Model.enums.Trends;
 import com.example.SpringBoot.dao.ExchangeRatesDAO;
 import com.example.SpringBoot.repository.ExchangeRateRepository;
 import com.example.SpringBoot.service.serviceInterface.ExchangeRatesService;

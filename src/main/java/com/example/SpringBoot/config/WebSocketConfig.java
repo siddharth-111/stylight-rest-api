@@ -1,16 +1,13 @@
 package com.example.SpringBoot.config;
 
 import com.example.SpringBoot.config.utils.ConfigHelper;
-import com.example.SpringBoot.service.utils.ServiceHelper;
 import com.example.SpringBoot.websocket.handler.InstrumentsWsHandler;
 import com.example.SpringBoot.websocket.handler.QuotesWsHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 @Configuration
 public class WebSocketConfig {

@@ -1,5 +1,7 @@
 package com.example.SpringBoot.Model;
 
+import com.example.SpringBoot.Model.enums.Trends;
+
 import java.util.LinkedHashMap;
 
 public class ExchangeRateResponse {
