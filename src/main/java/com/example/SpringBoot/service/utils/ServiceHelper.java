@@ -1,6 +1,8 @@
 package com.example.SpringBoot.service.utils;
 
+import com.example.SpringBoot.Model.Instrument;
 import com.example.SpringBoot.Model.LoginUserDetails;
+import com.example.SpringBoot.dao.InstrumentDAO;
 import com.example.SpringBoot.dao.LoginUserDetailsDAO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,17 @@ public class ServiceHelper {
         LoginUserDetailsDAO loginUserDetailsDAO = modelMapper.map(loginUserDetails, LoginUserDetailsDAO.class);
 
         return loginUserDetailsDAO;
+    }
+
+    public InstrumentDAO convertToInstrumentDAO(Instrument instrument)
+    {
+        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
+        return modelMapper.map(instrument, InstrumentDAO.class);
+    }
+
+    public Instrument convertToInstrument(InstrumentDAO instrumentDAO)
+    {
+        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
+        return modelMapper.map(instrumentDAO, Instrument.class);
     }
 }

@@ -7,6 +7,16 @@ public class Instrument {
     private String description;
     private Date creationDate;
 
+    public Instrument() {
+
+    }
+
+    public Instrument(String isin, String description)
+    {
+        this.isin = isin;
+        this.description = description;
+    }
+
     public String getIsin() {
         return isin;
     }

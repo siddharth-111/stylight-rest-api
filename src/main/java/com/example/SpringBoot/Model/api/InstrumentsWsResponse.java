@@ -3,15 +3,15 @@ package com.example.SpringBoot.Model.api;
 import com.example.SpringBoot.Model.enums.InstrumentsEventType;
 
 public class InstrumentsWsResponse {
-    private InstrumentsDataResponse instrumentsDataResponse;
+    private InstrumentsDataResponse data;
     private InstrumentsEventType type;
 
-    public InstrumentsDataResponse getInstrumentsDataResponse() {
-        return instrumentsDataResponse;
+    public InstrumentsDataResponse getData() {
+        return data;
     }
 
-    public void setInstrumentsDataResponse(InstrumentsDataResponse instrumentsDataResponse) {
-        this.instrumentsDataResponse = instrumentsDataResponse;
+    public void setData(InstrumentsDataResponse data) {
+        this.data = data;
     }
 
     public InstrumentsEventType getType() {

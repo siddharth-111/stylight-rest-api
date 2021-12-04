@@ -1,6 +1,11 @@
 package com.example.SpringBoot.websocket.handler;
 
+import com.example.SpringBoot.Model.Instrument;
+import com.example.SpringBoot.Model.api.InstrumentsDataResponse;
+import com.example.SpringBoot.Model.api.InstrumentsWsResponse;
+import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.ExceptionWebSocketHandlerDecorator;
 
@@ -9,6 +14,8 @@ import org.springframework.web.socket.handler.ExceptionWebSocketHandlerDecorator
  */
 public class InstrumentsWsHandler implements WebSocketHandler {
 
+    @Autowired
+    InstrumentsService instrumentsService;
     /**
      * Called when WS connects to the server.
      */
@@ -22,7 +29,11 @@ public class InstrumentsWsHandler implements WebSocketHandler {
      */
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        System.out.println("Received from instruments + " +  message.getPayload());
+        String payload = (String) message.getPayload();
+        ObjectMapper mapper = new ObjectMapper();
+        InstrumentsWsResponse instrumentsWsResponse  = mapper.readValue(payload, InstrumentsWsResponse.class);
+        Instrument instrument = new Instrument(instrumentsWsResponse.getData().getIsin(), instrumentsWsResponse.getData().getDescription());
+//        instrumentsService.saveInstruments(instrument);
     }
 
     /**
