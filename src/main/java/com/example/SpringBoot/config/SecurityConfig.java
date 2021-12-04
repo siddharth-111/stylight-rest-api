@@ -16,34 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-    @Autowired
-    LoginUserDetailsService loginUserDetailsService;
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(loginUserDetailsService);
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/**/**").hasRole("USER")
-                .antMatchers("/h2-ui/**").permitAll()
-                .antMatchers("/").permitAll()
-                .and()
-                .formLogin();
-        // this will ignore only h2-ui csrf, spring security 4+
-        http.csrf().ignoringAntMatchers("/h2-ui/**");
-
         http.csrf().disable();
-        //this will allow frames with same origin which is much more safe
-        http.headers().frameOptions().sameOrigin();
-    }
-
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
     }
 }
