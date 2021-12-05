@@ -1,4 +1,4 @@
-package com.example.SpringBoot.config.utils;
+package com.example.SpringBoot.websocket.utils;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
@@ -6,7 +6,7 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 @Component
-public class ConfigHelper {
+public class WebSocketConfigHelper {
 
     public WebSocketConnectionManager getWebSocketConnectionManager(String webSocketUri, WebSocketHandler webSocketHandler)
     {

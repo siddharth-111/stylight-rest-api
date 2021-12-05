@@ -34,16 +34,4 @@ public class ServiceHelper {
 
         return loginUserDetailsDAO;
     }
-
-    public InstrumentDAO convertToInstrumentDAO(Instrument instrument)
-    {
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-        return modelMapper.map(instrument, InstrumentDAO.class);
-    }
-
-    public Instrument convertToInstrument(InstrumentDAO instrumentDAO)
-    {
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-        return modelMapper.map(instrumentDAO, Instrument.class);
-    }
 }

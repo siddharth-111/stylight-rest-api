@@ -1,7 +1,6 @@
 package com.example.SpringBoot.controller;
 
 import com.example.SpringBoot.Model.Apartment;
-import com.example.SpringBoot.Model.Tutorial;
 import com.example.SpringBoot.service.serviceInterface.ApartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
