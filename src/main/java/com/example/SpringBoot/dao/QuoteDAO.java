@@ -10,6 +10,10 @@ import java.util.Date;
 public class QuoteDAO {
 
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     @Column(name = "isin")
     private String isin;
 
@@ -41,7 +45,6 @@ public class QuoteDAO {
     }
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Date creationDate;
 }

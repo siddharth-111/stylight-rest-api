@@ -11,6 +11,8 @@ import com.example.SpringBoot.service.utils.WebsocketsServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class QuotesServiceImpl {
 
@@ -31,5 +33,10 @@ public class QuotesServiceImpl {
         {
             throw new BadRequestException("Error in saving the quote, error is :" + e);
         }
+    }
+
+    public void deleteQuotesBeforeTime(Date closeTime) throws Exception
+    {
+        quotesRepository.deleteByCreationDateLessThan(closeTime);
     }
 }

@@ -6,6 +6,7 @@ import com.example.SpringBoot.websocket.utils.WebSocketConfigHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -13,9 +14,6 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 
 @Configuration
 public class WebSocketConfig {
-
-    @Autowired
-    private Environment environment;
 
     @Autowired
     WebSocketConfigHelper configHelper;
@@ -26,14 +24,23 @@ public class WebSocketConfig {
     @Autowired
     QuotesWsHandler quotesWsHandler;
 
+    @Value("${wsconfig.uri-prefix}")
+    private String wsUriPrefix;
+
+    @Value("${wsconfig.instruments-uri}")
+    private String wsInstrumentUri;
+
+    @Value("${wsconfig.quotes-uri}")
+    private String wsQuotesUri;
+
     @Bean
     public WebSocketConnectionManager instrumentsWsConnectionManager() {
-        return configHelper.getWebSocketConnectionManager(environment.getProperty("wsconfig.uri-prefix") + environment.getProperty("wsconfig.instruments-uri"), instrumentsWsHandler);
+        return configHelper.getWebSocketConnectionManager(wsUriPrefix + wsInstrumentUri, instrumentsWsHandler);
     }
 
     @Bean
     public WebSocketConnectionManager quotesWsConnectionManager() {
-        return configHelper.getWebSocketConnectionManager(environment.getProperty("wsconfig.uri-prefix") + environment.getProperty("wsconfig.quotes-uri"), quotesWsHandler);
+        return configHelper.getWebSocketConnectionManager(wsUriPrefix + wsQuotesUri, quotesWsHandler);
     }
 
 }

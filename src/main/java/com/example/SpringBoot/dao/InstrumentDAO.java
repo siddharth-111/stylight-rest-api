@@ -41,7 +41,6 @@ public class InstrumentDAO {
     }
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Date creationDate;
 }
