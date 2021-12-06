@@ -1,5 +1,7 @@
 package com.example.SpringBoot.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class Candlestick {
@@ -9,6 +11,8 @@ public class Candlestick {
     private double closePrice;
     private double highPrice;
     private double lowPrice;
+
+    @JsonIgnore
     private String isin;
 
     public String getIsin() {
