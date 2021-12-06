@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -44,9 +45,26 @@ public class CandlesticksServiceImpl implements CandlesticksService {
 
         List<CandlestickDAO> candlestickDAOS = candlesticksRepository.findRelatedCandlesticksBetweenTimeNative(isin, openTime, closeTime);
 
-        List<Candlestick> candlesticks = candlestickDAOS.stream().map(candlestickDAO -> modelMapper.map(candlestickDAO, Candlestick.class)).collect(Collectors.toList());
+        List<Candlestick> candlesticks = candlestickDAOS.stream()
+                        .map(candlestickDAO -> modelMapper.map(candlestickDAO, Candlestick.class))
+                        .collect(Collectors.toList());
+
+        return candlesticks.size() != 0 ? fillRemainingCandlesticks(candlesticks) : candlesticks;
+    }
+
+    public List<Candlestick> fillRemainingCandlesticks(List<Candlestick> candlesticks)
+    {
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        while(candlesticks.size() < 30)
+        {
+            Candlestick candlestick = candlesticks.get(0);
+            Date newOpenTime = candlestick.getCloseTimestamp();
+            Date newCloseTime = Date.from(newOpenTime.toInstant().truncatedTo(ChronoUnit.MINUTES).plus(1, ChronoUnit.MINUTES));
+            candlestick.setOpenTimestamp(newOpenTime);
+            candlestick.setCloseTimestamp(newCloseTime);
+            candlesticks.add(0, candlestick);
+        }
 
         return candlesticks;
-
     }
 }

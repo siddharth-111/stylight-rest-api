@@ -116,8 +116,15 @@ public class AggregatorScheduler {
         candlestick.setClosePrice(quotes.get(0).getPrice());
 
         // Set low and high price
-        candlestick.setLowPrice(quotes.stream().min(Comparator.comparing(Quote :: getPrice)).orElseThrow(NoSuchElementException::new).getPrice());
-        candlestick.setHighPrice(quotes.stream().max(Comparator.comparing(Quote :: getPrice)).orElseThrow(NoSuchElementException::new).getPrice());
+        candlestick.setLowPrice(quotes.stream()
+                    .min(Comparator.comparing(Quote :: getPrice))
+                    .orElseThrow(NoSuchElementException::new)
+                    .getPrice());
+
+        candlestick.setHighPrice(quotes.stream()
+                    .max(Comparator.comparing(Quote :: getPrice))
+                    .orElseThrow(NoSuchElementException::new)
+                    .getPrice());
 
         return candlestick;
     }
