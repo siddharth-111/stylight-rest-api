@@ -2,7 +2,10 @@ package com.example.SpringBoot.service.serviceInterface;
 
 import com.example.SpringBoot.Model.Instrument;
 
+import java.util.List;
+
 public interface InstrumentsService {
-    Instrument saveInstrument(Instrument instrument) throws Exception;
+    void saveInstrument(Instrument instrument) throws Exception;
     void deleteInstrument(Instrument instrument) throws Exception;
+    List<Instrument> getInstruments() throws Exception;
 }

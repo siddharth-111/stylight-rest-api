@@ -7,6 +7,7 @@ import com.example.SpringBoot.dao.QuoteDAO;
 import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.repository.InstrumentsRepository;
 import com.example.SpringBoot.repository.QuotesRepository;
+import com.example.SpringBoot.service.serviceInterface.QuotesService;
 import com.example.SpringBoot.service.utils.WebsocketsServiceHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class QuotesServiceImpl {
+public class QuotesServiceImpl implements QuotesService {
 
     @Autowired
     QuotesRepository quotesRepository;

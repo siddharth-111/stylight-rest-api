@@ -1,14 +1,38 @@
-package com.example.SpringBoot.Model;
+package com.example.SpringBoot.dao;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
 import java.util.Date;
 
-public class Candlestick {
+@Entity
+@Table(name = "Candlesticks")
+public class CandlestickDAO {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @Column(name = "open_timestamp")
     private Date openTimestamp;
+
+    @Column(name = "close_timestamp")
     private Date closeTimestamp;
+
+    @Column(name = "open_price")
     private double openPrice;
+
+    @Column(name = "close_price")
     private double closePrice;
+
+    @Column(name = "high_price")
     private double highPrice;
+
+    @Column(name = "low_price")
     private double lowPrice;
+
+    @Column(name = "isin")
     private String isin;
 
     public String getIsin() {
@@ -17,6 +41,14 @@ public class Candlestick {
 
     public void setIsin(String isin) {
         this.isin = isin;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Date getOpenTimestamp() {
@@ -66,4 +98,16 @@ public class Candlestick {
     public void setLowPrice(double lowPrice) {
         this.lowPrice = lowPrice;
     }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    @CreationTimestamp
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    private Date creationDate;
 }

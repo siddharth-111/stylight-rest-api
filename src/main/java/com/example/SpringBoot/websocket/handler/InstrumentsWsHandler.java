@@ -26,7 +26,7 @@ import org.springframework.web.socket.handler.ExceptionWebSocketHandlerDecorator
 public class InstrumentsWsHandler implements WebSocketHandler {
 
     @Autowired
-    InstrumentsServiceImpl instrumentsService;
+    InstrumentsService instrumentsService;
 
     Logger logger = LoggerFactory.getLogger(InstrumentsWsHandler.class);
 

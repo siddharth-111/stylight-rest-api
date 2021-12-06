@@ -5,6 +5,7 @@ import com.example.SpringBoot.dao.InstrumentDAO;
 import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;
 import com.example.SpringBoot.repository.InstrumentsRepository;
+import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
 import com.example.SpringBoot.service.utils.WebsocketsServiceHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class InstrumentsServiceImpl {
+public class InstrumentsServiceImpl implements InstrumentsService {
 
     @Autowired
     InstrumentsRepository instrumentsRepository;
@@ -23,15 +24,12 @@ public class InstrumentsServiceImpl {
     @Autowired
     ModelMapper modelMapper;
 
-
-    public Instrument saveInstrument(Instrument instrument)
+    public void saveInstrument(Instrument instrument)
     {
         try
         {
             InstrumentDAO instrumentDAO = modelMapper.map(instrument, InstrumentDAO.class);
-            InstrumentDAO instrumentDAOResponse = instrumentsRepository.save(instrumentDAO);
-
-            return modelMapper.map(instrumentDAOResponse, Instrument.class);
+            instrumentsRepository.save(instrumentDAO);
         }
         catch (Exception e)
         {
@@ -49,7 +47,7 @@ public class InstrumentsServiceImpl {
         instrumentsRepository.deleteById(isin);
     }
 
-    public List<Instrument> getInstruments()
+    public List<Instrument> getInstruments() throws Exception
     {
         List<InstrumentDAO> instrumentDAOS = instrumentsRepository.findAll();
 

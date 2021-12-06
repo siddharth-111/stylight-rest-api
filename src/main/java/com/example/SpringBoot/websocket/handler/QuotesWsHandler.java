@@ -22,7 +22,7 @@ public class QuotesWsHandler implements WebSocketHandler {
     Logger logger = LoggerFactory.getLogger(QuotesWsHandler.class);
 
     @Autowired
-    QuotesServiceImpl quotesService;
+    QuotesService quotesService;
 
     /**
      * Called when WS connects to the server.
