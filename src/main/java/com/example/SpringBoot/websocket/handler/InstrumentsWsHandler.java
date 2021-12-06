@@ -4,6 +4,7 @@ import com.example.SpringBoot.Model.Instrument;
 import com.example.SpringBoot.Model.api.InstrumentsDataResponse;
 import com.example.SpringBoot.Model.api.InstrumentsWsResponse;
 import com.example.SpringBoot.Model.enums.InstrumentsEventType;
+import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.service.serviceImpl.InstrumentsServiceImpl;
 import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,14 +59,20 @@ public class InstrumentsWsHandler implements WebSocketHandler {
             if(instrumentsWsResponse.getType() == InstrumentsEventType.ADD)
             {
                 instrumentsService.saveInstrument(instrument);
-            } else
+            }
+            else if(instrumentsWsResponse.getType() == InstrumentsEventType.DELETE)
             {
                 instrumentsService.deleteInstrument(instrument);
+            }
+            else
+            {
+                throw new Exception("Invalid instrument event type :" + instrumentsWsResponse.getType());
             }
         }
         catch (Exception e)
         {
             logger.error("Error in saving instruments, the error is " + e.getMessage(), e);
+            throw e;
         }
 
     }

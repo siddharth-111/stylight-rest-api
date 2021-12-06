@@ -6,9 +6,13 @@ import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;
 import com.example.SpringBoot.repository.InstrumentsRepository;
 import com.example.SpringBoot.service.utils.WebsocketsServiceHelper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InstrumentsServiceImpl {
@@ -17,16 +21,17 @@ public class InstrumentsServiceImpl {
     InstrumentsRepository instrumentsRepository;
 
     @Autowired
-    private WebsocketsServiceHelper serviceHelper;
+    ModelMapper modelMapper;
+
 
     public Instrument saveInstrument(Instrument instrument)
     {
         try
         {
-            InstrumentDAO instrumentDAO = serviceHelper.convertToInstrumentDAO(instrument);
+            InstrumentDAO instrumentDAO = modelMapper.map(instrument, InstrumentDAO.class);
             InstrumentDAO instrumentDAOResponse = instrumentsRepository.save(instrumentDAO);
 
-            return serviceHelper.convertToInstrument(instrumentDAOResponse);
+            return modelMapper.map(instrumentDAOResponse, Instrument.class);
         }
         catch (Exception e)
         {
@@ -37,10 +42,21 @@ public class InstrumentsServiceImpl {
     public void deleteInstrument(Instrument instrument) throws Exception
     {
         final String isin = instrument.getIsin();
+
         instrumentsRepository.findById(isin)
-                .orElseThrow(() -> new ResourceNotFoundException("Cannot delete as there exists the following isin: " + isin));
+                .orElseThrow(() -> new ResourceNotFoundException("Cannot delete as there exists no following isin: " + isin));
 
         instrumentsRepository.deleteById(isin);
+    }
+
+    public List<Instrument> getInstruments()
+    {
+        List<InstrumentDAO> instrumentDAOS = instrumentsRepository.findAll();
+
+        List<Instrument> instruments = instrumentDAOS.stream().
+                map(instrumentDAO -> modelMapper.map(instrumentDAO, Instrument.class)).collect(Collectors.toList());
+
+        return instruments;
     }
 
 }

@@ -33,14 +33,14 @@ public class WebSocketConfig {
     @Value("${wsconfig.quotes-uri}")
     private String wsQuotesUri;
 
-    @Bean
-    public WebSocketConnectionManager instrumentsWsConnectionManager() {
-        return configHelper.getWebSocketConnectionManager(wsUriPrefix + wsInstrumentUri, instrumentsWsHandler);
-    }
-
-    @Bean
-    public WebSocketConnectionManager quotesWsConnectionManager() {
-        return configHelper.getWebSocketConnectionManager(wsUriPrefix + wsQuotesUri, quotesWsHandler);
-    }
+//    @Bean
+//    public WebSocketConnectionManager instrumentsWsConnectionManager() {
+//        return configHelper.getWebSocketConnectionManager(wsUriPrefix + wsInstrumentUri, instrumentsWsHandler);
+//    }
+//
+//    @Bean
+//    public WebSocketConnectionManager quotesWsConnectionManager() {
+//        return configHelper.getWebSocketConnectionManager(wsUriPrefix + wsQuotesUri, quotesWsHandler);
+//    }
 
 }

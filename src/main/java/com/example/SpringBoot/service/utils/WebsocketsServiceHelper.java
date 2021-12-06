@@ -16,25 +16,17 @@ public class WebsocketsServiceHelper {
 
     public InstrumentDAO convertToInstrumentDAO(Instrument instrument)
     {
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
         return modelMapper.map(instrument, InstrumentDAO.class);
     }
 
     public Instrument convertToInstrument(InstrumentDAO instrumentDAO)
     {
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
         return modelMapper.map(instrumentDAO, Instrument.class);
     }
 
     public QuoteDAO convertToQuoteDAO(Quote quote)
     {
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
         return modelMapper.map(quote, QuoteDAO.class);
     }
 
-    public Quote convertToQuote(QuoteDAO quoteDAO)
-    {
-        modelMapper.getConfiguration().setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-        return modelMapper.map(quoteDAO, Quote.class);
-    }
 }
