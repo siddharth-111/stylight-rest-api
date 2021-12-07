@@ -101,6 +101,30 @@ public class AggregatorScheduler {
 
     }
 
+    @Scheduled(cron = "0 0 * * * *")
+    public void candleSticksCleanup()
+    {
+        logger.info("Performing the candlestick clean up every hour");
+
+        try
+        {
+            // Create a timestamp of current minus an hour
+            Instant instant = now().truncatedTo(ChronoUnit.MINUTES).minus(1, ChronoUnit.HOURS);
+            Date previousHour = Date.from(instant);
+
+            logger.debug("Deleting the candlestick before the time: " + previousHour);
+
+            // Delete all the quotes from database older than two minutes
+            candlesticksService.deleteCandlesticksBeforeTime(previousHour);
+
+        }
+        catch (Exception e)
+        {
+            logger.error("Error in deleting quotes from database, the error is :" + e.getLocalizedMessage(), e);
+        }
+
+    }
+
     private Candlestick createCandleStickFromQuotes(List<Quote> quotes, String isin, Date openTime, Date closeTime) throws Exception
     {
         Candlestick candlestick = new Candlestick();

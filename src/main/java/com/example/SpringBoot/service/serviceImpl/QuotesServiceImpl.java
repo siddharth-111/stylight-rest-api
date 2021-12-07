@@ -42,6 +42,8 @@ public class QuotesServiceImpl implements QuotesService {
 
     public void deleteQuotesBeforeTime(Date closeTime) throws Exception
     {
+        logger.debug("deleting quotes before time: " + closeTime);
+
         quotesRepository.deleteByCreationDateLessThan(closeTime);
     }
 

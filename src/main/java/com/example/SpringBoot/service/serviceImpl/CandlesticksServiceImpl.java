@@ -42,6 +42,12 @@ public class CandlesticksServiceImpl implements CandlesticksService {
         candlesticksRepository.save(candlestickDAO);
     }
 
+    public void deleteCandlesticksBeforeTime(Date closeTime) throws Exception
+    {
+        logger.debug("deleting candlesticks before time: " + closeTime);
+        candlesticksRepository.deleteByCreationDateLessThan(closeTime);
+    }
+
     public List<Candlestick> findCandlesticks(String isin) throws Exception
     {
         logger.debug("finding candlesticks for isin: " + isin);
