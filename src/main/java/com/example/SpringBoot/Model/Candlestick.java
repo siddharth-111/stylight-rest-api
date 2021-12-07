@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 
-public class Candlestick {
+public class Candlestick implements Cloneable {
     private Date openTimestamp;
     private Date closeTimestamp;
     private double openPrice;
@@ -69,5 +69,10 @@ public class Candlestick {
 
     public void setLowPrice(double lowPrice) {
         this.lowPrice = lowPrice;
+    }
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }

@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -49,20 +50,35 @@ public class CandlesticksServiceImpl implements CandlesticksService {
                         .map(candlestickDAO -> modelMapper.map(candlestickDAO, Candlestick.class))
                         .collect(Collectors.toList());
 
-        return candlesticks.size() != 0 ? fillRemainingCandlesticks(candlesticks) : candlesticks;
+        return candlesticks.size() != 0 ? fillLeadingAndTrailingCandlesticks(candlesticks, openTime, closeTime) : candlesticks;
     }
 
-    public List<Candlestick> fillRemainingCandlesticks(List<Candlestick> candlesticks)
+    public List<Candlestick> fillLeadingAndTrailingCandlesticks(List<Candlestick> candlesticks, Date openTime, Date closeTime) throws Exception
     {
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        while(candlesticks.size() < 30)
+        Date leadingCloseTime = candlesticks.get(0).getCloseTimestamp();
+        closeTime = new Timestamp(closeTime.getTime());
+
+        while(leadingCloseTime.getTime() < closeTime.getTime())
         {
-            Candlestick candlestick = candlesticks.get(0);
-            Date newOpenTime = candlestick.getCloseTimestamp();
-            Date newCloseTime = Date.from(newOpenTime.toInstant().truncatedTo(ChronoUnit.MINUTES).plus(1, ChronoUnit.MINUTES));
-            candlestick.setOpenTimestamp(newOpenTime);
-            candlestick.setCloseTimestamp(newCloseTime);
-            candlesticks.add(0, candlestick);
+              Candlestick candlestick = (Candlestick) candlesticks.get(0).clone();
+              candlestick.setOpenTimestamp(leadingCloseTime);
+              leadingCloseTime = new Timestamp(Date.from(leadingCloseTime.toInstant()
+                      .plus(1, ChronoUnit.MINUTES)).getTime());
+              candlestick.setCloseTimestamp(leadingCloseTime);
+              candlesticks.add(0, candlestick);
+        }
+
+        Date trailingCloseTime = candlesticks.get(candlesticks.size() - 1).getOpenTimestamp();
+        openTime = new Timestamp(openTime.getTime());
+
+        while(trailingCloseTime.getTime() > openTime.getTime())
+        {
+            Candlestick candlestick = (Candlestick) candlesticks.get(candlesticks.size() - 1).clone();
+            candlestick.setCloseTimestamp(trailingCloseTime);
+            trailingCloseTime = new Timestamp(Date.from(trailingCloseTime.toInstant()
+                    .minus(1, ChronoUnit.MINUTES)).getTime());
+            candlestick.setOpenTimestamp(trailingCloseTime);
+            candlesticks.add(candlestick);
         }
 
         return candlesticks;
