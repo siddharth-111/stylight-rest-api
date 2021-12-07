@@ -6,10 +6,10 @@ import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;
 import com.example.SpringBoot.repository.InstrumentsRepository;
 import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
-import com.example.SpringBoot.service.utils.WebsocketsServiceHelper;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class InstrumentsServiceImpl implements InstrumentsService {
+
+    Logger logger = LoggerFactory.getLogger(InstrumentsServiceImpl.class);
 
     @Autowired
     InstrumentsRepository instrumentsRepository;
@@ -28,6 +30,7 @@ public class InstrumentsServiceImpl implements InstrumentsService {
     {
         try
         {
+            logger.debug("Saving the instrument with isin: " + instrument.getIsin());
             InstrumentDAO instrumentDAO = modelMapper.map(instrument, InstrumentDAO.class);
             instrumentsRepository.save(instrumentDAO);
         }
@@ -40,6 +43,7 @@ public class InstrumentsServiceImpl implements InstrumentsService {
     public void deleteInstrument(Instrument instrument) throws Exception
     {
         final String isin = instrument.getIsin();
+        logger.debug("Deleting the instrument with isin: " + instrument.getIsin());
 
         instrumentsRepository.findById(isin)
                 .orElseThrow(() -> new ResourceNotFoundException("Cannot delete as there exists no following isin: " + isin));
