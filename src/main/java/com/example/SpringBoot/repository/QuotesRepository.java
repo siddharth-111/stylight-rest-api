@@ -19,4 +19,12 @@ public interface QuotesRepository extends JpaRepository<QuoteDAO, String> {
     @Query(value = "SELECT * FROM Quotes q WHERE q.isin = ?1 AND q.creation_date BETWEEN ?2 and ?3 ORDER BY q.creation_date DESC", nativeQuery = true)
     List<QuoteDAO> findRelatedQuotesBetweenTimeNative(String isin, Date openTime, Date endTime);
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE from Quotes q where q.isin = ?1 and q.creation_date < ?2", nativeQuery = true)
+    public void deleteByIsinCreationDateLessThanNative(String isin, Date creationDate);
+
+    @Query(value = "SELECT * FROM Quotes q WHERE q.isin = ?1", nativeQuery = true)
+    List<QuoteDAO> findQuotesByIsinNative(String isin);
+
 }

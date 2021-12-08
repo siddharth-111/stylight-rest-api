@@ -5,13 +5,17 @@ import com.example.SpringBoot.dao.InstrumentDAO;
 import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;
 import com.example.SpringBoot.repository.InstrumentsRepository;
+import com.example.SpringBoot.service.serviceInterface.CandlesticksService;
 import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
+import com.example.SpringBoot.service.serviceInterface.QuotesService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +26,12 @@ public class InstrumentsServiceImpl implements InstrumentsService {
 
     @Autowired
     InstrumentsRepository instrumentsRepository;
+
+    @Autowired
+    QuotesService quotesService;
+
+    @Autowired
+    CandlesticksService candlesticksService;
 
     @Autowired
     ModelMapper modelMapper;
@@ -49,6 +59,10 @@ public class InstrumentsServiceImpl implements InstrumentsService {
                 .orElseThrow(() -> new ResourceNotFoundException("Cannot delete as there exists no following isin: " + isin));
 
         instrumentsRepository.deleteById(isin);
+
+        // Delete associated quotes and candlesticks
+        quotesService.deleteQuotesByIsinBeforeCreationTime(isin, Date.from(Instant.now()));
+        candlesticksService.deleteCandlesticksByIsinBeforeCreationTime(isin, Date.from(Instant.now()));
     }
 
     public List<Instrument> getInstruments() throws Exception

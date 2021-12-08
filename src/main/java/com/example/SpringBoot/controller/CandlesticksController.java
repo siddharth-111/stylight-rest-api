@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/")
-public class CandleSticksController {
+public class CandlesticksController {
 
     @Autowired
     CandlesticksService candlesticksService;

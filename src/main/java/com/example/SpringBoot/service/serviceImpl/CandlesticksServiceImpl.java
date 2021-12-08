@@ -48,6 +48,12 @@ public class CandlesticksServiceImpl implements CandlesticksService {
         candlesticksRepository.deleteByCreationDateLessThan(closeTime);
     }
 
+    public void deleteCandlesticksByIsinBeforeCreationTime(String isin, Date creationDate) throws Exception
+    {
+        logger.debug("deleting quotes for isin: " + isin);
+        candlesticksRepository.deleteByIsinCreationDateLessThanNative(isin, creationDate);
+    }
+
     public List<Candlestick> findCandlesticks(String isin) throws Exception
     {
         logger.debug("finding candlesticks for isin: " + isin);
@@ -78,6 +84,7 @@ public class CandlesticksServiceImpl implements CandlesticksService {
 
         return candlesticks;
     }
+
 
     private List<Candlestick> fillIntermediateCandlesticks(List<Candlestick> candlesticks) throws CloneNotSupportedException {
 
