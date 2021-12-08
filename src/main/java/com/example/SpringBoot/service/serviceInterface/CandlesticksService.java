@@ -1,6 +1,6 @@
 package com.example.SpringBoot.service.serviceInterface;
 
-import com.example.SpringBoot.Model.Candlestick;
+import com.example.SpringBoot.model.Candlestick;
 
 import java.util.Date;
 import java.util.List;

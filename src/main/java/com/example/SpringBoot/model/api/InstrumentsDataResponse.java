@@ -1,4 +1,4 @@
-package com.example.SpringBoot.Model.api;
+package com.example.SpringBoot.model.api;
 
 public class InstrumentsDataResponse {
     private String description;

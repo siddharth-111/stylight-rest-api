@@ -1,23 +1,15 @@
 package com.example.SpringBoot.websocket.handler;
 
-import com.example.SpringBoot.Model.Instrument;
-import com.example.SpringBoot.Model.api.InstrumentsDataResponse;
-import com.example.SpringBoot.Model.api.InstrumentsWsResponse;
-import com.example.SpringBoot.Model.enums.InstrumentsEventType;
-import com.example.SpringBoot.exception.BadRequestException;
-import com.example.SpringBoot.service.serviceImpl.InstrumentsServiceImpl;
+import com.example.SpringBoot.model.Instrument;
+import com.example.SpringBoot.model.api.InstrumentsWsResponse;
+import com.example.SpringBoot.model.enums.InstrumentsEventType;
 import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.socket.*;
-import org.springframework.web.socket.handler.ExceptionWebSocketHandlerDecorator;
 
 /**
  * Handle server connection.

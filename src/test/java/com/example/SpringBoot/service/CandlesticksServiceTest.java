@@ -1,6 +1,6 @@
 package com.example.SpringBoot.service;
 
-import com.example.SpringBoot.Model.Candlestick;
+import com.example.SpringBoot.model.Candlestick;
 import com.example.SpringBoot.repository.CandlesticksRepository;
 import com.example.SpringBoot.service.serviceInterface.CandlesticksService;
 import org.junit.jupiter.api.Test;

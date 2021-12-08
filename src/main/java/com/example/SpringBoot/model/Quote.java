@@ -1,36 +1,48 @@
-package com.example.SpringBoot.Model;
+package com.example.SpringBoot.model;
 
 import java.util.Date;
 
-public class Instrument {
+public class Quote {
+
+    private long id;
     private String isin;
-    private String description;
+
+    private double price;
     private Date creationDate;
 
-    public Instrument() {
+    public Quote() {
 
     }
 
-    public Instrument(String isin, String description)
+    public Quote(String isin, double price)
     {
         this.isin = isin;
-        this.description = description;
+        this.price = price;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getIsin() {
         return isin;
     }
 
+
     public void setIsin(String isin) {
         this.isin = isin;
     }
 
-    public String getDescription() {
-        return description;
+    public double getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public Date getCreationDate() {
@@ -40,4 +52,5 @@ public class Instrument {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
 }

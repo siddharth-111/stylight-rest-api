@@ -1,6 +1,6 @@
-package com.example.SpringBoot.Model.api;
+package com.example.SpringBoot.model.api;
 
-import com.example.SpringBoot.Model.enums.InstrumentsEventType;
+import com.example.SpringBoot.model.enums.InstrumentsEventType;
 
 public class InstrumentsWsResponse {
     private InstrumentsDataResponse data;

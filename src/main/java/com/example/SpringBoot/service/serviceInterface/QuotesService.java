@@ -1,6 +1,6 @@
 package com.example.SpringBoot.service.serviceInterface;
 
-import com.example.SpringBoot.Model.Quote;
+import com.example.SpringBoot.model.Quote;
 
 import java.util.Date;
 import java.util.List;

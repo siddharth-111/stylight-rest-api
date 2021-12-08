@@ -1,10 +1,8 @@
 package com.example.SpringBoot.websocket.handler;
 
-import com.example.SpringBoot.Model.Quote;
-import com.example.SpringBoot.Model.api.QuotesWsResponse;
-import com.example.SpringBoot.Model.enums.QuotesEventType;
-import com.example.SpringBoot.exception.BadRequestException;
-import com.example.SpringBoot.service.serviceImpl.QuotesServiceImpl;
+import com.example.SpringBoot.model.Quote;
+import com.example.SpringBoot.model.api.QuotesWsResponse;
+import com.example.SpringBoot.model.enums.QuotesEventType;
 import com.example.SpringBoot.service.serviceInterface.QuotesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

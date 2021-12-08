@@ -1,12 +1,8 @@
 package com.example.SpringBoot.service;
 
-import com.example.SpringBoot.Model.Instrument;
-import com.example.SpringBoot.Model.Quote;
-import com.example.SpringBoot.dao.InstrumentDAO;
+import com.example.SpringBoot.model.Quote;
 import com.example.SpringBoot.dao.QuoteDAO;
-import com.example.SpringBoot.repository.InstrumentsRepository;
 import com.example.SpringBoot.repository.QuotesRepository;
-import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
 import com.example.SpringBoot.service.serviceInterface.QuotesService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

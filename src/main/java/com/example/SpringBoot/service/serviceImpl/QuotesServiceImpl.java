@@ -1,6 +1,6 @@
 package com.example.SpringBoot.service.serviceImpl;
 
-import com.example.SpringBoot.Model.Quote;
+import com.example.SpringBoot.model.Quote;
 import com.example.SpringBoot.dao.QuoteDAO;
 import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.repository.QuotesRepository;

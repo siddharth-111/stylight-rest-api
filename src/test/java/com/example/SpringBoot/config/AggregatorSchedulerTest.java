@@ -1,9 +1,7 @@
 package com.example.SpringBoot.config;
 
-import com.example.SpringBoot.Model.Candlestick;
-import com.example.SpringBoot.Model.Instrument;
+import com.example.SpringBoot.model.Candlestick;
 import com.example.SpringBoot.dao.CandlestickDAO;
-import com.example.SpringBoot.dao.InstrumentDAO;
 import com.example.SpringBoot.repository.CandlesticksRepository;
 import com.example.SpringBoot.service.serviceInterface.CandlesticksService;
 import org.junit.jupiter.api.Test;

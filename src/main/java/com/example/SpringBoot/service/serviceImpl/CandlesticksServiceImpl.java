@@ -7,14 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.SpringBoot.config.AggregatorScheduler;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.SpringBoot.Model.Candlestick;
+import com.example.SpringBoot.model.Candlestick;
 import com.example.SpringBoot.dao.CandlestickDAO;
 import com.example.SpringBoot.repository.CandlesticksRepository;
 import com.example.SpringBoot.service.serviceInterface.CandlesticksService;

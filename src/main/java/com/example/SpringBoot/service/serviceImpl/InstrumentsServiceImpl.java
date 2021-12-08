@@ -1,6 +1,6 @@
 package com.example.SpringBoot.service.serviceImpl;
 
-import com.example.SpringBoot.Model.Instrument;
+import com.example.SpringBoot.model.Instrument;
 import com.example.SpringBoot.dao.InstrumentDAO;
 import com.example.SpringBoot.exception.BadRequestException;
 import com.example.SpringBoot.exception.ResourceNotFoundException;

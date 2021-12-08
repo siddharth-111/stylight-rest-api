@@ -1,6 +1,6 @@
-package com.example.SpringBoot.Model.api;
+package com.example.SpringBoot.model.api;
 
-import com.example.SpringBoot.Model.enums.QuotesEventType;
+import com.example.SpringBoot.model.enums.QuotesEventType;
 
 public class QuotesWsResponse {
     private QuotesDataResponse data;

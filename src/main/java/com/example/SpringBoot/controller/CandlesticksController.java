@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.SpringBoot.Model.Candlestick;
+import com.example.SpringBoot.model.Candlestick;
 import com.example.SpringBoot.service.serviceInterface.CandlesticksService;
 
 

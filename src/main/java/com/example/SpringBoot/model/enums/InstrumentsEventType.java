@@ -1,4 +1,4 @@
-package com.example.SpringBoot.Model.enums;
+package com.example.SpringBoot.model.enums;
 
 public enum InstrumentsEventType {
     ADD("ADD"),

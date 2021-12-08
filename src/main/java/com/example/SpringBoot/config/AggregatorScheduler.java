@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.example.SpringBoot.Model.Candlestick;
-import com.example.SpringBoot.Model.Instrument;
-import com.example.SpringBoot.Model.Quote;
+import com.example.SpringBoot.model.Candlestick;
+import com.example.SpringBoot.model.Instrument;
+import com.example.SpringBoot.model.Quote;
 import com.example.SpringBoot.service.serviceInterface.CandlesticksService;
 import com.example.SpringBoot.service.serviceInterface.InstrumentsService;
 import com.example.SpringBoot.service.serviceInterface.QuotesService;

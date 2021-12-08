@@ -1,6 +1,6 @@
 package com.example.SpringBoot.service.serviceInterface;
 
-import com.example.SpringBoot.Model.Instrument;
+import com.example.SpringBoot.model.Instrument;
 
 import java.util.List;
 
