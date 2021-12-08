@@ -1,11 +1,13 @@
 package com.example.SpringBoot.controller;
 
-import com.example.SpringBoot.Model.Candlestick;
-import com.example.SpringBoot.service.serviceInterface.CandlesticksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.SpringBoot.Model.Candlestick;
+import com.example.SpringBoot.service.serviceInterface.CandlesticksService;
+
 
 import java.util.List;
 

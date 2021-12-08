@@ -60,7 +60,8 @@ public class QuotesServiceImpl implements QuotesService {
 
     public void deleteQuotesByIsinBeforeCreationTime(String isin, Date creationDate) throws Exception
     {
-        logger.debug("deleting quotes for isin: " + isin);
+        logger.debug("deleting quotes for isin: " + isin + " before time: " + creationDate);
+
         quotesRepository.deleteByIsinCreationDateLessThanNative(isin, creationDate);
     }
 }

@@ -1,9 +1,9 @@
 package com.example.SpringBoot.dao;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
 import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "Quotes")
