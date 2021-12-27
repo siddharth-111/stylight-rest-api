@@ -14,7 +14,7 @@ services:
 
 
   #service 3: definition of your spring-boot app
-  customerservice:                        #it is just a name, which will be used only in this file.
+  myapp:                        #it is just a name, which will be used only in this file.
     image: myapp              #name of the image after dockerfile executes
     container_name: myapp  #name of the container created from docker image
     build:
