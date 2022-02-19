@@ -1,8 +1,7 @@
 package com.ratepay.challenge.service.serviceImpl;
 
-import com.ratepay.challenge.dao.BugDAO;
 import com.ratepay.challenge.exception.ResourceNotFoundException;
-import com.ratepay.challenge.model.Bug;
+import com.ratepay.challenge.entity.Bug;
 import com.ratepay.challenge.repository.BugsRepository;
 import com.ratepay.challenge.service.serviceInterface.BugsService;
 import lombok.RequiredArgsConstructor;
@@ -21,44 +20,47 @@ public class BugsServiceImpl implements BugsService {
 
     private final ModelMapper modelMapper;
 
-    public List<BugDAO> getBugs() {
-        return bugsRepository.findAll();
+    public List<Bug> getBugs() {
+
+        List<Bug> bugList = bugsRepository.findAll();
+
+        return bugList;
     }
 
     public Bug getBugById(UUID issueId) {
-        BugDAO bugDAO = bugsRepository.findById(issueId)
+        Bug bug = bugsRepository.findById(issueId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found issue with id = " + issueId));
-
-        Bug bug = modelMapper.map(bugDAO, Bug.class);
 
         return bug;
     }
 
     public Bug createBug(Bug bug) {
 
-        BugDAO bugDAO = modelMapper.map(bug, BugDAO.class);
-
-        BugDAO response = bugsRepository.save(bugDAO);
-
-        Bug bugResponse = modelMapper.map(response, Bug.class);
+        Bug bugResponse = bugsRepository.save(bug);
 
         return bugResponse;
     }
 
     public Bug updateBug(Bug bug) {
 
-        BugDAO bugDAO = modelMapper.map(bug, BugDAO.class);
+        bugsRepository.findById(bug.getIssueId())
+                .orElseThrow(() -> new ResourceNotFoundException("Not found issue with id = " + bug.getIssueId()));
 
-        BugDAO response = bugsRepository.save(bugDAO);
-
-        Bug bugResponse = modelMapper.map(response, Bug.class);
+        Bug bugResponse = bugsRepository.save(bug);
 
         return bugResponse;
     }
 
     public void deleteBug(UUID issueId) {
 
+        bugsRepository.findById(issueId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found issue with id = " + issueId));
+
         bugsRepository.deleteById(issueId);
 
+    }
+
+    public void deleteAll() {
+        bugsRepository.deleteAll();
     }
 }

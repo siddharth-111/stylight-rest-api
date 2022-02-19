@@ -1,7 +1,7 @@
 package com.ratepay.challenge.model.enums;
 
 public enum Status {
-    ADD("NEW"),
+    NEW("NEW"),
     VERIFIED("VERIFIED"),
     RESOLVED("RESOLVED")
     ;
