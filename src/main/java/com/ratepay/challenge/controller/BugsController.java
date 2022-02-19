@@ -33,14 +33,8 @@ public class BugsController {
 
     @PostMapping("/bugs/")
     public ResponseEntity<Bug> createBug(@RequestBody Bug bug) {
-
-        try {
-            Bug bugServiceResponse = bugsService.createBug(bug);
-            return new ResponseEntity<>(bugServiceResponse, HttpStatus.OK);
-        } catch (Exception e)
-        {
-            throw e;
-        }
+        Bug bugServiceResponse = bugsService.createBug(bug);
+        return new ResponseEntity<>(bugServiceResponse, HttpStatus.OK);
     }
 
     @PatchMapping("/bugs/")

@@ -1,6 +1,8 @@
 package com.ratepay.challenge.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import com.ratepay.challenge.entity.Bug;
 import com.ratepay.challenge.exception.ResourceNotFoundException;
 import com.ratepay.challenge.model.enums.Priority;
@@ -20,6 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -121,6 +126,53 @@ public class BugsControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Bug Description"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(Status.NEW.toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.priority").value(Priority.MINOR.toString()));
+
+    }
+
+    @Test
+    public void shouldUpdateBug() throws Exception {
+
+        bugResponse.setDescription("Bug Description updated");
+        bugResponse.setStatus(Status.VERIFIED);
+
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
+
+        String json = gson.toJson(bug);
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/api/bugs/")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Bug title"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Bug Description updated"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(Status.VERIFIED.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.priority").value(Priority.MINOR.toString()));
+
+    }
+
+    @Test
+    public void shouldDeleteBug() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/bugs/" + bugResponse.getIssueId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void shouldNotDeleteBug() throws Exception {
+
+        UUID randomId = UUID.randomUUID();
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/bugs/" + randomId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
+                .andExpect(result -> assertEquals("Not found issue with id = " + randomId , result.getResolvedException().getMessage()));
 
     }
 }
