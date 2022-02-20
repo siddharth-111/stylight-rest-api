@@ -51,11 +51,11 @@ public class Bug {
         this.developerId = developerId;
     }
 
-    public BugStatus getStatus() {
+    public BugStatus getBugStatus() {
         return bugStatus;
     }
 
-    public void setStatus(BugStatus bugStatus) {
+    public void setBugStatus(BugStatus bugStatus) {
         this.bugStatus = bugStatus;
     }
 

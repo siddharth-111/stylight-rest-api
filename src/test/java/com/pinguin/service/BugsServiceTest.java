@@ -32,7 +32,7 @@ public class BugsServiceTest {
 
         bug.setTitle("Bug title");
         bug.setDescription("Bug Description");
-        bug.setStatus(BugStatus.NEW);
+        bug.setBugStatus(BugStatus.NEW);
         bug.setPriority(Priority.MINOR);
 
         createdBug = bugsService.createBug(bug);
@@ -51,7 +51,7 @@ public class BugsServiceTest {
 
         assertEquals(bugList.get(0).getTitle(), "Bug title");
         assertEquals(bugList.get(0).getDescription(), "Bug Description");
-        Assertions.assertEquals(bugList.get(0).getStatus(), BugStatus.NEW);
+        Assertions.assertEquals(bugList.get(0).getBugStatus(), BugStatus.NEW);
         Assertions.assertEquals(bugList.get(0).getPriority(), Priority.MINOR);
     }
 
@@ -61,7 +61,7 @@ public class BugsServiceTest {
 
         assertEquals(bug.getTitle(), "Bug title");
         assertEquals(bug.getDescription(), "Bug Description");
-        Assertions.assertEquals(bug.getStatus(), BugStatus.NEW);
+        Assertions.assertEquals(bug.getBugStatus(), BugStatus.NEW);
         Assertions.assertEquals(bug.getPriority(), Priority.MINOR);
     }
 
@@ -76,14 +76,14 @@ public class BugsServiceTest {
 
         bug.setTitle("Bug title 1");
         bug.setDescription("Bug Description 1");
-        bug.setStatus(BugStatus.VERIFIED);
+        bug.setBugStatus(BugStatus.VERIFIED);
         bug.setPriority(Priority.MAJOR);
 
         Bug createdBug = bugsService.createBug(bug);
 
         assertEquals(createdBug.getTitle(), "Bug title 1");
         assertEquals(createdBug.getDescription(), "Bug Description 1");
-        Assertions.assertEquals(createdBug.getStatus(), BugStatus.VERIFIED);
+        Assertions.assertEquals(createdBug.getBugStatus(), BugStatus.VERIFIED);
         Assertions.assertEquals(createdBug.getPriority(), Priority.MAJOR);
     }
 
@@ -96,7 +96,7 @@ public class BugsServiceTest {
 
         assertEquals(updatedBug.getTitle(), "Bug title");
         assertEquals(updatedBug.getDescription(), "Bug Description updated");
-        Assertions.assertEquals(updatedBug.getStatus(), BugStatus.NEW);
+        Assertions.assertEquals(updatedBug.getBugStatus(), BugStatus.NEW);
         Assertions.assertEquals(updatedBug.getPriority(), Priority.CRITICAL);
     }
 
@@ -106,14 +106,14 @@ public class BugsServiceTest {
 
         bug.setTitle("Bug title");
         bug.setDescription("Bug to be deleted");
-        bug.setStatus(BugStatus.NEW);
+        bug.setBugStatus(BugStatus.NEW);
         bug.setPriority(Priority.CRITICAL);
 
         Bug createdBug = bugsService.createBug(bug);
 
         assertEquals(createdBug.getTitle(), "Bug title");
         assertEquals(createdBug.getDescription(), "Bug to be deleted");
-        Assertions.assertEquals(createdBug.getStatus(), BugStatus.NEW);
+        Assertions.assertEquals(createdBug.getBugStatus(), BugStatus.NEW);
         Assertions.assertEquals(createdBug.getPriority(), Priority.CRITICAL);
 
         bugsService.deleteBug(createdBug.getIssueId());

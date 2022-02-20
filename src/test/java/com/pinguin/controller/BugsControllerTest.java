@@ -44,7 +44,7 @@ public class BugsControllerTest {
 
         bug.setTitle("Bug title");
         bug.setDescription("Bug Description");
-        bug.setStatus(BugStatus.NEW);
+        bug.setBugStatus(BugStatus.NEW);
         bug.setPriority(Priority.MINOR);
 
         bugResponse = bugsService.createBug(bug);
@@ -104,7 +104,7 @@ public class BugsControllerTest {
 
         bug.setTitle("Bug title");
         bug.setDescription("Bug Description");
-        bug.setStatus(BugStatus.NEW);
+        bug.setBugStatus(BugStatus.NEW);
         bug.setPriority(Priority.MINOR);
 
         Gson gson = new Gson();
@@ -126,7 +126,7 @@ public class BugsControllerTest {
     public void shouldUpdateBug() throws Exception {
 
         bugResponse.setDescription("Bug Description updated");
-        bugResponse.setStatus(BugStatus.VERIFIED);
+        bugResponse.setBugStatus(BugStatus.VERIFIED);
 
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
 

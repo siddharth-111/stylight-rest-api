@@ -1,9 +1,9 @@
 package com.pinguin.repository;
 
-import com.pinguin.entity.Story;
+import com.pinguin.entity.Developer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface StoryRepository extends JpaRepository<Story, UUID> {
+public interface DevelopersRepository extends JpaRepository<Developer, UUID> {
 }

@@ -1,6 +1,8 @@
 package com.pinguin.controller;
 
 import com.pinguin.entity.Story;
+import com.pinguin.model.Plan;
+import com.pinguin.service.serviceImpl.PlanningServiceImpl;
 import com.pinguin.service.serviceInterface.StoriesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,10 @@ public class StoriesController {
 
     private final StoriesService storiesService;
 
+    private final PlanningServiceImpl planningService;
+
     @GetMapping
-    public ResponseEntity<List<Story>> storiesService(@RequestParam(required = false) String title) {
+    public ResponseEntity<List<Story>> getStories(@RequestParam(required = false) String title) {
         List<Story> storyList = storiesService.getStories();
         return new ResponseEntity<>(storyList, HttpStatus.OK);
     }
@@ -29,6 +33,14 @@ public class StoriesController {
         Story story = storiesService.getStoryById(issueId);
 
         return new ResponseEntity<>(story, HttpStatus.OK);
+    }
+
+    @GetMapping("/plan")
+    public ResponseEntity<List<Plan>> getPlan() {
+
+        List<Plan> planList = planningService.CreatePlan();
+
+        return new ResponseEntity<>(planList, HttpStatus.OK);
     }
 
     @PostMapping

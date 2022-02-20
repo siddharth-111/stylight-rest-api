@@ -1,7 +1,5 @@
 package com.pinguin.entity;
 
-import com.pinguin.model.enums.BugStatus;
-import com.pinguin.model.enums.Priority;
 import com.pinguin.model.enums.StoryStatus;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -51,14 +49,6 @@ public class Story {
         this.developerId = developerId;
     }
 
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
@@ -93,9 +83,6 @@ public class Story {
 
     @Enumerated(EnumType.STRING)
     private StoryStatus storyStatus;
-
-    @Enumerated(EnumType.STRING)
-    private Priority priority;
 
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
