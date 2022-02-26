@@ -7,18 +7,16 @@ import com.pinguin.service.serviceInterface.StoriesService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@Repository
-@Transactional
+@Service
 public class StoriesServiceImpl implements StoriesService {
     private final StoriesRepository storiesRepository;
-
-    private final ModelMapper modelMapper;
 
     public List<Story> getStories() {
 

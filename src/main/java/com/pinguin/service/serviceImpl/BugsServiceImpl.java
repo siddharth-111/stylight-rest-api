@@ -6,15 +6,13 @@ import com.pinguin.entity.Bug;
 import com.pinguin.repository.BugsRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@Repository
-@Transactional
+@Service
 public class BugsServiceImpl implements BugsService {
     private final BugsRepository bugsRepository;
 
