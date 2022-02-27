@@ -92,7 +92,7 @@ public class StoryPlanningUtil {
 
         updateSlidingWindowInfo(stories, allowedStoriesForDeveloper, slidingWindowInfo);
 
-        for(int i = slidingWindowInfo.startIdx ; i <= slidingWindowInfo.endIdx  ; i++)
+        for(int i = slidingWindowInfo.startIdx; i <= slidingWindowInfo.endIdx; i++)
         {
             storiesForDeveloper.add(stories.get(i));
         }
