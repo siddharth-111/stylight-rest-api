@@ -25,7 +25,7 @@ public class PlanningServiceImpl {
 
     public List<Plan> CreatePlan()
     {
-        List<Story> storyList = storiesRepository.findAll();
+        List<Story> storyList = storiesRepository.findByDeveloperIdIsNull();
         List<Developer> developerList = developersRepository.findAll();
 
         List<Plan> planList =  storyPlanningUtil.getPlanForDevelopers(storyList, developerList);

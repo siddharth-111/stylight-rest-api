@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/api/developers")
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class DevelopersController {
     private final DevelopersService developersService;
 
     @GetMapping
-    public ResponseEntity<List<Developer>> getDevelopers(@RequestParam(required = false) String title) {
-        List<Developer> storyList = developersService.getDevelopers();
+    public ResponseEntity<List<Developer>> getDevelopers(@RequestParam(required = false) String name) {
+        List<Developer> storyList = developersService.getDevelopers(name);
         return new ResponseEntity<>(storyList, HttpStatus.OK);
     }
 

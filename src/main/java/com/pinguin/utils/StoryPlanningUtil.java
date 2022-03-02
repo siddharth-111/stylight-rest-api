@@ -77,6 +77,7 @@ public class StoryPlanningUtil {
     {
         DeveloperWeekPlan developerWeekPlan = new DeveloperWeekPlan();
         developerWeekPlan.setDeveloperId(developer.getDeveloperId());
+        developerWeekPlan.setName(developer.getName());
         developerWeekPlan.setStoryList(storiesForDeveloper);
 
         return developerWeekPlan;

@@ -12,7 +12,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.headers().frameOptions().disable();
         http.csrf().disable();
+        //this will allow frames with same origin which is much more safe
+        http.headers().frameOptions().sameOrigin();
     }
 }

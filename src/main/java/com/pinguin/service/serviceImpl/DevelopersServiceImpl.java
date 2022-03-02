@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,9 +21,9 @@ public class DevelopersServiceImpl implements DevelopersService {
 
     private final DevelopersRepository developersRepository;
 
-    public List<Developer> getDevelopers() {
+    public List<Developer> getDevelopers(String name) {
 
-        List<Developer> developerList = developersRepository.findAll();
+        List<Developer> developerList = StringUtils.isEmpty(name) ? developersRepository.findAll() : developersRepository.findByNameContaining(name);
 
         return developerList;
     }

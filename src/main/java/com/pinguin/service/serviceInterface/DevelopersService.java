@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DevelopersService {
-    List<Developer> getDevelopers();
+    List<Developer> getDevelopers(String name);
     Developer getDeveloperById(UUID developerId);
     Developer createDeveloper(Developer developer) ;
     Developer updateDeveloper(Developer developer);

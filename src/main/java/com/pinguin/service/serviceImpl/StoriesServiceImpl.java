@@ -2,6 +2,7 @@ package com.pinguin.service.serviceImpl;
 
 import com.pinguin.entity.Story;
 import com.pinguin.exception.ResourceNotFoundException;
+import com.pinguin.model.api.Assignment;
 import com.pinguin.repository.StoriesRepository;
 import com.pinguin.service.serviceInterface.StoriesService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +20,9 @@ import java.util.UUID;
 public class StoriesServiceImpl implements StoriesService {
     private final StoriesRepository storiesRepository;
 
-    public List<Story> getStories() {
+    public List<Story> getStories(String title) {
 
-        List<Story> storyList = storiesRepository.findAll();
+        List<Story> storyList = StringUtils.isEmpty(title) ? storiesRepository.findAll() : storiesRepository.findByTitleContaining(title);
 
         return storyList;
     }
@@ -47,6 +49,18 @@ public class StoriesServiceImpl implements StoriesService {
         Story storyResponse = storiesRepository.save(story);
 
         return storyResponse;
+    }
+
+    public void assign(List<Assignment> assignments)
+    {
+        assignments.forEach(assignment -> {
+            Story story = storiesRepository.findById(assignment.getIssueId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Not found story with issue id = " + assignment.getIssueId()));
+
+            story.setDeveloperId(assignment.getDeveloperId());
+
+            storiesRepository.save(story);
+        });
     }
 
     public void deleteStory(UUID issueId) {

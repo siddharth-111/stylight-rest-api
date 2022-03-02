@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/api/bugs")
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class BugsController {
 
     @GetMapping
     public ResponseEntity<List<Bug>> getBugs(@RequestParam(required = false) String title) {
-        List<Bug> bugList = bugsService.getBugs();
+        List<Bug> bugList = bugsService.getBugs(title);
         return new ResponseEntity<>(bugList, HttpStatus.OK);
     }
 

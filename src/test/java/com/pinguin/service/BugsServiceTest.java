@@ -45,7 +45,7 @@ public class BugsServiceTest {
 
     @Test
     public void shouldFetchBugs() {
-        List<Bug> bugList = bugsService.getBugs();
+        List<Bug> bugList = bugsService.getBugs("");
 
         assertEquals(bugList.size(), 1);
 
@@ -125,7 +125,7 @@ public class BugsServiceTest {
     public void shouldDeleteAllBugs() {
         bugsService.deleteAll();
 
-        List<Bug> bugList = bugsService.getBugs();
+        List<Bug> bugList = bugsService.getBugs("");
 
         assertEquals(bugList.size() , 0);
     }

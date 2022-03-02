@@ -7,6 +7,7 @@ import com.pinguin.repository.BugsRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +19,9 @@ public class BugsServiceImpl implements BugsService {
 
     private final ModelMapper modelMapper;
 
-    public List<Bug> getBugs() {
+    public List<Bug> getBugs(String title) {
 
-        List<Bug> bugList = bugsRepository.findAll();
+        List<Bug> bugList = StringUtils.isEmpty(title) ? bugsRepository.findAll() : bugsRepository.findByTitleContaining(title);
 
         return bugList;
     }
