@@ -25,9 +25,11 @@ public class Story {
 
     private String description;
 
-    private UUID developerId;
-
     private int points;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "developer", referencedColumnName = "developerId")
+    private Developer developer;
 
     @Enumerated(EnumType.STRING)
     private StoryStatus storyStatus;

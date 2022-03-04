@@ -27,7 +27,9 @@ public class Bug {
 
     private String description;
 
-    private UUID developerId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "developer", referencedColumnName = "developerId")
+    private Developer developer;
 
     @Enumerated(EnumType.STRING)
     private BugStatus bugStatus;

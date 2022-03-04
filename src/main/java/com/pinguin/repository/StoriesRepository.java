@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface StoriesRepository extends JpaRepository<Story, UUID> {
-    List<Story> findByDeveloperIdIsNull();
+    List<Story> findByDeveloperIsNull();
     List<Story> findByTitleContaining(String title);
 }

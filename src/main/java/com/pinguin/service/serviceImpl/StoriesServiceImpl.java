@@ -1,8 +1,10 @@
 package com.pinguin.service.serviceImpl;
 
+import com.pinguin.entity.Developer;
 import com.pinguin.entity.Story;
 import com.pinguin.exception.ResourceNotFoundException;
 import com.pinguin.model.api.Assignment;
+import com.pinguin.repository.DevelopersRepository;
 import com.pinguin.repository.StoriesRepository;
 import com.pinguin.service.serviceInterface.StoriesService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,8 @@ import java.util.UUID;
 @Service
 public class StoriesServiceImpl implements StoriesService {
     private final StoriesRepository storiesRepository;
+
+    private final DevelopersRepository developersRepository;
 
     public List<Story> getStories(String title) {
 
@@ -57,7 +61,10 @@ public class StoriesServiceImpl implements StoriesService {
             Story story = storiesRepository.findById(assignment.getIssueId())
                     .orElseThrow(() -> new ResourceNotFoundException("Not found story with issue id = " + assignment.getIssueId()));
 
-            story.setDeveloperId(assignment.getDeveloperId());
+            Developer developer = developersRepository.findById(assignment.getDeveloperId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Not found developer with id = " + assignment.getDeveloperId()));
+
+            story.setDeveloper(developer);
 
             storiesRepository.save(story);
         });
