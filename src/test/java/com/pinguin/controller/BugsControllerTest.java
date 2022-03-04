@@ -3,7 +3,9 @@ package com.pinguin.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pinguin.entity.Bug;
+import com.pinguin.entity.Developer;
 import com.pinguin.exception.ResourceNotFoundException;
+import com.pinguin.model.api.Assignment;
 import com.pinguin.model.enums.Priority;
 import com.pinguin.model.enums.BugStatus;
 import com.pinguin.service.serviceInterface.BugsService;
@@ -13,15 +15,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,87 +40,89 @@ public class BugsControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
     private BugsService bugsService;
 
-    private Bug bugResponse;
-    private Bug bug;
+    private Bug bugOne, bugTwo;
 
     @BeforeEach
     public void init() {
-        bug = new Bug();
+        bugOne = new Bug();
 
-        bug.setTitle("Bug title");
-        bug.setDescription("Bug Description");
-        bug.setBugStatus(BugStatus.NEW);
-        bug.setPriority(Priority.MINOR);
+        bugOne.setIssueId(UUID.randomUUID());
+        bugOne.setTitle("Bug title");
+        bugOne.setDescription("Bug Description");
+        bugOne.setBugStatus(BugStatus.NEW);
+        bugOne.setPriority(Priority.MINOR);
 
-        bugResponse = bugsService.createBug(bug);
+        bugTwo = new Bug();
+
+        bugTwo.setIssueId(UUID.randomUUID());
+        bugTwo.setTitle("Bug title two");
+        bugTwo.setDescription("Bug Description two");
+        bugTwo.setBugStatus(BugStatus.NEW);
+        bugTwo.setPriority(Priority.CRITICAL);
+
     }
 
     @AfterEach
     public void teardown() {
-        bugsService.deleteAll();
+        bugOne = null;
+        bugTwo = null;
     }
 
     @Test
     public void shouldReturnBugs() throws Exception {
 
+        when(bugsService.getBugs("")).thenReturn(new ArrayList<>(Arrays.asList(bugOne, bugTwo)));
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/bugs")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .queryParam("title", ""))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Bug title"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("Bug Description"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(BugStatus.NEW.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bugStatus").value(BugStatus.NEW.toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].priority").value(Priority.MINOR.toString()));
     }
 
     @Test
-    public void shouldFindBugWithIssueId() throws Exception {
+    public void shouldReturnBugsWithTitle() throws Exception {
 
+        when(bugsService.getBugs("Bug title two")).thenReturn(new ArrayList<>(Arrays.asList(bugTwo)));
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/bugs/" + bugResponse.getIssueId())
-                        .accept(MediaType.APPLICATION_JSON))
+                        .get("/api/bugs")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .queryParam("title", "Bug title two"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Bug title"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Bug Description"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(BugStatus.NEW.toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.priority").value(Priority.MINOR.toString()));
-
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Bug title two"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("Bug Description two"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].bugStatus").value(BugStatus.NEW.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].priority").value(Priority.CRITICAL.toString()));
     }
 
     @Test
-    public void shouldNotFindBugWithIssueId() throws Exception {
+    public void shouldNotReturnBugsWithTitle() throws Exception {
 
-        UUID randomId = UUID.randomUUID();
+        when(bugsService.getBugs("Bug title two")).thenReturn(new ArrayList<>(Arrays.asList(bugTwo)));
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/bugs/" + randomId)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .get("/api/bugs")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .queryParam("title", "Bug no title"))
                 .andDo(print())
-                .andExpect(status().isNotFound())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
-                .andExpect(result -> assertEquals("Not found issue with id = " + randomId, result.getResolvedException().getMessage()));
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isEmpty());
     }
-
     @Test
-    public void shouldCreateBug() throws Exception {
+    public void shouldFindBugWithIssueId() throws Exception {
 
-        Bug bug = new Bug();
-
-        bug.setTitle("Bug title");
-        bug.setDescription("Bug Description");
-        bug.setBugStatus(BugStatus.NEW);
-        bug.setPriority(Priority.MINOR);
-
-        Gson gson = new Gson();
-        String json = gson.toJson(bug);
+        when(bugsService.getBugById(bugOne.getIssueId())).thenReturn(bugOne);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/bugs/")
-                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                        .get("/api/bugs/" + bugOne.getIssueId())
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Bug title"))
@@ -123,14 +133,57 @@ public class BugsControllerTest {
     }
 
     @Test
+    public void shouldNotFindBugWithIssueId() throws Exception {
+
+        UUID randomId = UUID.randomUUID();
+
+        when(bugsService.getBugById(randomId)).thenThrow(ResourceNotFoundException.class);
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/bugs/" + randomId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException));
+    }
+
+    @Test
+    public void shouldCreateBug() throws Exception {
+
+        Bug bug = new Bug();
+
+        bug.setTitle("Bug title three");
+        bug.setDescription("Bug Description three");
+        bug.setBugStatus(BugStatus.NEW);
+        bug.setPriority(Priority.MINOR);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(bug);
+
+        when(bugsService.createBug(any(Bug.class))).thenReturn(bug);
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/bugs")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Bug title three"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Bug Description three"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.bugStatus").value(BugStatus.NEW.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.priority").value(Priority.MINOR.toString()));
+
+    }
+
+    @Test
     public void shouldUpdateBug() throws Exception {
 
-        bugResponse.setDescription("Bug Description updated");
-        bugResponse.setBugStatus(BugStatus.VERIFIED);
+        bugOne.setDescription("Bug Description updated");
+        bugOne.setBugStatus(BugStatus.VERIFIED);
 
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
 
-        String json = gson.toJson(bug);
+        String json = gson.toJson(bugOne);
+
+        when(bugsService.updateBug(any(Bug.class))).thenReturn(bugOne);
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .patch("/api/bugs/")
@@ -144,28 +197,35 @@ public class BugsControllerTest {
 
     }
 
+
     @Test
     public void shouldDeleteBug() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/bugs/" + bugResponse.getIssueId())
+                        .delete("/api/bugs/" + bugOne.getIssueId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
 
     @Test
-    public void shouldNotDeleteBug() throws Exception {
+    public void shouldAssignBug() throws Exception {
 
-        UUID randomId = UUID.randomUUID();
+        Developer developer = new Developer();
+        developer.setDeveloperId(UUID.randomUUID());
+        developer.setName("Andrew");
+
+        List<Assignment> assignmentList = new ArrayList<>();
+        Assignment assignment = new Assignment();
+        assignment.setDeveloperId(developer.getDeveloperId());
+        assignment.setIssueId(bugOne.getIssueId());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(assignmentList);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/bugs/" + randomId)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .post("/api/bugs/assign")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andDo(print())
-                .andExpect(status().isNotFound())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
-                .andExpect(result -> assertEquals("Not found issue with id = " + randomId , result.getResolvedException().getMessage()));
-
+                .andExpect(status().isOk());
     }
 }

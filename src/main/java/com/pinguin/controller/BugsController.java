@@ -1,6 +1,7 @@
 package com.pinguin.controller;
 
 import com.pinguin.entity.Bug;
+import com.pinguin.model.api.Assignment;
 import com.pinguin.service.serviceInterface.BugsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,5 +50,10 @@ public class BugsController {
     @DeleteMapping("/{id}")
     public void deleteBug(@PathVariable("id") UUID issueId) {
         bugsService.deleteBug(issueId);
+    }
+
+    @PostMapping("/assign")
+    public void assignBugs(@RequestBody List<Assignment> assignments) {
+        bugsService.assign(assignments);
     }
 }

@@ -1,5 +1,9 @@
 package com.pinguin.service.serviceImpl;
 
+import com.pinguin.entity.Developer;
+import com.pinguin.entity.Story;
+import com.pinguin.model.api.Assignment;
+import com.pinguin.repository.DevelopersRepository;
 import com.pinguin.service.serviceInterface.BugsService;
 import com.pinguin.exception.ResourceNotFoundException;
 import com.pinguin.entity.Bug;
@@ -17,7 +21,8 @@ import java.util.UUID;
 public class BugsServiceImpl implements BugsService {
     private final BugsRepository bugsRepository;
 
-    private final ModelMapper modelMapper;
+    private final DevelopersRepository developersRepository;
+
 
     public List<Bug> getBugs(String title) {
 
@@ -62,4 +67,20 @@ public class BugsServiceImpl implements BugsService {
     public void deleteAll() {
         bugsRepository.deleteAll();
     }
+
+    public void assign(List<Assignment> assignments)
+    {
+        assignments.forEach(assignment -> {
+            Bug bug = bugsRepository.findById(assignment.getIssueId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Not found bug with issue id = " + assignment.getIssueId()));
+
+            Developer developer = developersRepository.findById(assignment.getDeveloperId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Not found developer with id = " + assignment.getDeveloperId()));
+
+            bug.setDeveloper(developer);
+
+            bugsRepository.save(bug);
+        });
+    }
+
 }
