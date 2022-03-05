@@ -218,6 +218,7 @@ public class BugsControllerTest {
         Assignment assignment = new Assignment();
         assignment.setDeveloperId(developer.getDeveloperId());
         assignment.setIssueId(bugOne.getIssueId());
+        assignmentList.add(assignment);
 
         Gson gson = new Gson();
         String json = gson.toJson(assignmentList);
