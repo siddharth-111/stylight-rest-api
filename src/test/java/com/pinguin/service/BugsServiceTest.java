@@ -183,7 +183,7 @@ public class BugsServiceTest {
     }
 
     @Test
-    public void shouldNotAssignBug() {
+    public void shouldAssignBug() {
         Developer developer = new Developer();
         developer.setDeveloperId(UUID.randomUUID());
         developer.setName("Andrew");

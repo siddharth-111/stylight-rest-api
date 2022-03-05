@@ -80,9 +80,6 @@ public class StoriesServiceTest {
 
         assertEquals(storyList.size(), 2);
 
-
-
-
         assertEquals(storyList.get(0).getTitle(), "Story title");
         assertEquals(storyList.get(0).getDescription(), "Story Description");
         assertEquals(storyList.get(0).getStoryStatus(), StoryStatus.NEW);
@@ -94,176 +91,174 @@ public class StoriesServiceTest {
         assertEquals(storyList.get(1).getPoints(), 8);
     }
 
-//    @Test
-//    public void shouldFetchBugsByTitle() {
-//
-//        when(bugsRepository.findByTitleContaining("two")).thenReturn(new ArrayList<>(Arrays.asList(bugTwo)));
-//
-//        List<Bug> bugList = bugsService.getBugs("two");
-//
-//        assertEquals(bugList.size(), 1);
-//
-//        assertEquals(bugList.get(0).getTitle(), "Bug title two");
-//        assertEquals(bugList.get(0).getDescription(), "Bug Description two");
-//        assertEquals(bugList.get(0).getBugStatus(), BugStatus.NEW);
-//        assertEquals(bugList.get(0).getPriority(), Priority.CRITICAL);
-//    }
-//
-//    @Test
-//    public void shouldFetchBugById() {
-//
-//        when(bugsRepository.findById(bugOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(bugOne));
-//
-//        Bug bug = bugsService.getBugById(bugOne.getIssueId());
-//
-//        assertEquals(bug.getTitle(), "Bug title");
-//        assertEquals(bug.getDescription(), "Bug Description");
-//        Assertions.assertEquals(bug.getBugStatus(), BugStatus.NEW);
-//        Assertions.assertEquals(bug.getPriority(), Priority.MINOR);
-//    }
-//
-//    @Test
-//    public void shouldNotFetchBugById() {
-//        UUID randomId = UUID.randomUUID();
-//        when(bugsRepository.findById(randomId)).thenThrow(ResourceNotFoundException.class);
-//        assertThrows(ResourceNotFoundException.class, () -> bugsService.getBugById(randomId));
-//    }
-//
-//    @Test
-//    public void shouldCreateBug() {
-//        Bug bug = new Bug();
-//
-//        bug.setTitle("Bug title 1");
-//        bug.setDescription("Bug Description 1");
-//        bug.setBugStatus(BugStatus.VERIFIED);
-//        bug.setPriority(Priority.MAJOR);
-//
-//        when(bugsRepository.save(bug)).thenReturn(bug);
-//
-//        Bug createdBug = bugsService.createBug(bug);
-//
-//        assertEquals(createdBug.getTitle(), "Bug title 1");
-//        assertEquals(createdBug.getDescription(), "Bug Description 1");
-//        Assertions.assertEquals(createdBug.getBugStatus(), BugStatus.VERIFIED);
-//        Assertions.assertEquals(createdBug.getPriority(), Priority.MAJOR);
-//    }
-//
-//    @Test
-//    public void shouldUpdateBug() {
-//        bugOne.setDescription("Bug Description updated");
-//        bugOne.setPriority(Priority.CRITICAL);
-//
-//        when(bugsRepository.findById(bugOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(bugOne));
-//        when(bugsRepository.save(bugOne)).thenReturn(bugOne);
-//
-//        Bug updatedBug = bugsService.updateBug(bugOne);
-//
-//        assertEquals(updatedBug.getTitle(), "Bug title");
-//        assertEquals(updatedBug.getDescription(), "Bug Description updated");
-//        Assertions.assertEquals(updatedBug.getBugStatus(), BugStatus.NEW);
-//        Assertions.assertEquals(updatedBug.getPriority(), Priority.CRITICAL);
-//    }
-//
-//    @Test
-//    public void shouldNotUpdateBug() {
-//
-//        when(bugsRepository.save(bugOne)).thenReturn(bugOne);
-//
-//        assertThrows(ResourceNotFoundException.class, () -> bugsService.updateBug(bugOne));
-//    }
-//
-//    @Test
-//    public void shouldDeleteBugById() {
-//        when(bugsRepository.findById(bugOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(bugOne));
-//        bugsService.deleteBug(bugOne.getIssueId());
-//        verify(bugsRepository, times(1)).deleteById(bugOne.getIssueId());
-//    }
-//
-//    @Test
-//    public void shouldNotDeleteBugById() {
-//        UUID randomId = UUID.randomUUID();
-//        when(bugsRepository.findById(randomId)).thenThrow(ResourceNotFoundException.class);
-//        assertThrows(ResourceNotFoundException.class, () -> bugsService.deleteBug(randomId));
-//    }
-//
-//    @Test
-//    public void shouldDeleteAllBugs() {
-//        bugsService.deleteAll();
-//        verify(bugsRepository, times(1)).deleteAll();
-//    }
-//
-//    @Test
-//    public void shouldNotAssignBug() {
-//        Developer developer = new Developer();
-//        developer.setDeveloperId(UUID.randomUUID());
-//        developer.setName("Andrew");
-//
-//        List<Assignment> assignmentList = new ArrayList<>();
-//        Assignment assignment = new Assignment();
-//        assignment.setDeveloperId(developer.getDeveloperId());
-//        assignment.setIssueId(bugOne.getIssueId());
-//
-//        assignmentList.add(assignment);
-//
-//        when(bugsRepository.findById(bugOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(bugOne));
-//        when(developersRepository.findById(developer.getDeveloperId())).thenReturn(java.util.Optional.ofNullable(developer));
-//
-//        bugsService.assign(assignmentList);
-//
-//        verify(bugsRepository, times(1)).save(bugOne);
-//    }
-//
-//    @Test
-//    public void shouldNotAssignBugWithEmptyAssignments() {
-//        Developer developer = new Developer();
-//        developer.setDeveloperId(UUID.randomUUID());
-//        developer.setName("Andrew");
-//
-//        List<Assignment> assignmentList = new ArrayList<>();
-//
-//        when(bugsRepository.findById(bugOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(bugOne));
-//        when(developersRepository.findById(developer.getDeveloperId())).thenReturn(java.util.Optional.ofNullable(developer));
-//
-//        bugsService.assign(assignmentList);
-//
-//        verify(bugsRepository, times(0)).save(bugOne);
-//    }
-//
-//    @Test
-//    public void shouldNotAssignBugAsNoBugWithIdIsFound() {
-//        Developer developer = new Developer();
-//        developer.setDeveloperId(UUID.randomUUID());
-//        developer.setName("Andrew");
-//
-//        List<Assignment> assignmentList = new ArrayList<>();
-//        Assignment assignment = new Assignment();
-//        assignment.setDeveloperId(developer.getDeveloperId());
-//        assignment.setIssueId(bugOne.getIssueId());
-//
-//        assignmentList.add(assignment);
-//
-//        when(bugsRepository.findById(bugOne.getIssueId())).thenThrow(ResourceNotFoundException.class);
-//        when(developersRepository.findById(developer.getDeveloperId())).thenReturn(java.util.Optional.ofNullable(developer));
-//
-//        assertThrows(ResourceNotFoundException.class, () -> bugsService.assign(assignmentList));
-//    }
-//
-//    @Test
-//    public void shouldNotAssignBugAsNoDeveloperWithIdIsFound() {
-//        Developer developer = new Developer();
-//        developer.setDeveloperId(UUID.randomUUID());
-//        developer.setName("Andrew");
-//
-//        List<Assignment> assignmentList = new ArrayList<>();
-//        Assignment assignment = new Assignment();
-//        assignment.setDeveloperId(developer.getDeveloperId());
-//        assignment.setIssueId(bugOne.getIssueId());
-//
-//        assignmentList.add(assignment);
-//
-//        when(bugsRepository.findById(bugOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(bugOne));
-//        when(developersRepository.findById(developer.getDeveloperId())).thenThrow(ResourceNotFoundException.class);
-//
-//        assertThrows(ResourceNotFoundException.class, () -> bugsService.assign(assignmentList));
-//    }
+    @Test
+    public void shouldFetchStoriesByTitle() {
+
+        when(storiesRepository.findByTitleContaining("two")).thenReturn(new ArrayList<>(Arrays.asList(storyTwo)));
+
+        List<Story> storyList = storiesService.getStories("two");
+
+        assertEquals(storyList.size(), 1);
+
+        assertEquals(storyList.get(0).getTitle(), "Story title two");
+        assertEquals(storyList.get(0).getDescription(), "Story Description two");
+        assertEquals(storyList.get(0).getStoryStatus(), StoryStatus.ESTIMATED);
+        assertEquals(storyList.get(0).getPoints(), 8);
+    }
+
+    @Test
+    public void shouldFetchBugById() {
+
+        when(storiesRepository.findById(storyOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(storyOne));
+
+        Story story = storiesService.getStoryById(storyOne.getIssueId());
+
+        assertEquals(story.getTitle(), "Story title");
+        assertEquals(story.getDescription(), "Story Description");
+        assertEquals(story.getStoryStatus(), StoryStatus.NEW);
+        assertEquals(story.getPoints(), 5);
+    }
+
+    @Test
+    public void shouldNotFetchStoryById() {
+        UUID randomId = UUID.randomUUID();
+        when(storiesRepository.findById(randomId)).thenThrow(ResourceNotFoundException.class);
+        assertThrows(ResourceNotFoundException.class, () -> storiesService.getStoryById(randomId));
+    }
+
+    @Test
+    public void shouldCreateBug() {
+        Story story = new Story();
+
+        story.setTitle("Story title 1");
+        story.setDescription("Story Description 1");
+        story.setStoryStatus(StoryStatus.COMPLETED);
+        story.setPoints(8);
+
+        when(storiesRepository.save(story)).thenReturn(story);
+
+        Story createdStory = storiesService.createStory(story);
+
+        assertEquals(createdStory.getTitle(), "Story title 1");
+        assertEquals(createdStory.getDescription(), "Story Description 1");
+        Assertions.assertEquals(createdStory.getStoryStatus(), StoryStatus.COMPLETED);
+        Assertions.assertEquals(createdStory.getPoints(), 8);
+    }
+
+    @Test
+    public void shouldUpdateStory() {
+        storyOne.setDescription("Story Description updated");
+        storyOne.setPoints(7);
+
+        when(storiesRepository.findById(storyOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(storyOne));
+        when(storiesRepository.save(storyOne)).thenReturn(storyOne);
+
+        Story updatedStory = storiesService.updateStory(storyOne);
+
+        assertEquals(updatedStory.getDescription(), "Story Description updated");
+        Assertions.assertEquals(updatedStory.getPoints(), 7);
+    }
+
+    @Test
+    public void shouldNotUpdateStory() {
+
+        when(storiesRepository.save(storyOne)).thenReturn(storyOne);
+
+        assertThrows(ResourceNotFoundException.class, () -> storiesService.updateStory(storyOne));
+    }
+
+    @Test
+    public void shouldDeleteStoryById() {
+        when(storiesRepository.findById(storyOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(storyOne));
+        storiesService.deleteStory(storyOne.getIssueId());
+        verify(storiesRepository, times(1)).deleteById(storyOne.getIssueId());
+    }
+
+    @Test
+    public void shouldNotDeleteStoryById() {
+        UUID randomId = UUID.randomUUID();
+        when(storiesRepository.findById(randomId)).thenThrow(ResourceNotFoundException.class);
+        assertThrows(ResourceNotFoundException.class, () -> storiesService.deleteStory(randomId));
+    }
+
+    @Test
+    public void shouldDeleteAllStories() {
+        storiesService.deleteAll();
+        verify(storiesRepository, times(1)).deleteAll();
+    }
+
+    @Test
+    public void shouldAssignStory() {
+        Developer developer = new Developer();
+        developer.setDeveloperId(UUID.randomUUID());
+        developer.setName("Andrew");
+
+        List<Assignment> assignmentList = new ArrayList<>();
+        Assignment assignment = new Assignment();
+        assignment.setDeveloperId(developer.getDeveloperId());
+        assignment.setIssueId(storyOne.getIssueId());
+
+        assignmentList.add(assignment);
+
+        when(storiesRepository.findById(storyOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(storyOne));
+        when(developersRepository.findById(developer.getDeveloperId())).thenReturn(java.util.Optional.ofNullable(developer));
+
+        storiesService.assign(assignmentList);
+
+        verify(storiesRepository, times(1)).save(storyOne);
+    }
+
+    @Test
+    public void shouldNotAssignStoryWithEmptyAssignments() {
+        Developer developer = new Developer();
+        developer.setDeveloperId(UUID.randomUUID());
+        developer.setName("Andrew");
+
+        List<Assignment> assignmentList = new ArrayList<>();
+
+        when(storiesRepository.findById(storyOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(storyOne));
+        when(developersRepository.findById(developer.getDeveloperId())).thenReturn(java.util.Optional.ofNullable(developer));
+
+        storiesService.assign(assignmentList);
+
+        verify(storiesRepository, times(0)).save(storyOne);
+    }
+
+    @Test
+    public void shouldNotAssignStoryAsNoBugWithIdIsFound() {
+        Developer developer = new Developer();
+        developer.setDeveloperId(UUID.randomUUID());
+        developer.setName("Andrew");
+
+        List<Assignment> assignmentList = new ArrayList<>();
+        Assignment assignment = new Assignment();
+        assignment.setDeveloperId(developer.getDeveloperId());
+        assignment.setIssueId(storyOne.getIssueId());
+
+        assignmentList.add(assignment);
+
+        when(storiesRepository.findById(storyOne.getIssueId())).thenThrow(ResourceNotFoundException.class);
+        when(developersRepository.findById(developer.getDeveloperId())).thenReturn(java.util.Optional.ofNullable(developer));
+
+        assertThrows(ResourceNotFoundException.class, () -> storiesService.assign(assignmentList));
+    }
+
+    @Test
+    public void shouldNotAssignBugAsNoDeveloperWithIdIsFound() {
+        Developer developer = new Developer();
+        developer.setDeveloperId(UUID.randomUUID());
+        developer.setName("Andrew");
+
+        List<Assignment> assignmentList = new ArrayList<>();
+        Assignment assignment = new Assignment();
+        assignment.setDeveloperId(developer.getDeveloperId());
+        assignment.setIssueId(storyOne.getIssueId());
+
+        assignmentList.add(assignment);
+
+        when(storiesRepository.findById(storyOne.getIssueId())).thenReturn(java.util.Optional.ofNullable(storyOne));
+        when(developersRepository.findById(developer.getDeveloperId())).thenThrow(ResourceNotFoundException.class);
+
+        assertThrows(ResourceNotFoundException.class, () -> storiesService.assign(assignmentList));
+    }
 }
