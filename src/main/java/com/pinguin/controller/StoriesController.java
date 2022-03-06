@@ -4,6 +4,7 @@ import com.pinguin.entity.Story;
 import com.pinguin.model.Plan;
 import com.pinguin.model.api.Assignment;
 import com.pinguin.service.serviceImpl.PlanningServiceImpl;
+import com.pinguin.service.serviceInterface.PlanningService;
 import com.pinguin.service.serviceInterface.StoriesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class StoriesController {
 
     private final StoriesService storiesService;
 
-    private final PlanningServiceImpl planningService;
+    private final PlanningService planningService;
 
     @GetMapping
     public ResponseEntity<List<Story>> getStories(@RequestParam(required = false) String title) {
@@ -40,7 +41,7 @@ public class StoriesController {
     @GetMapping("/plan")
     public ResponseEntity<List<Plan>> getPlan() {
 
-        List<Plan> planList = planningService.CreatePlan();
+        List<Plan> planList = planningService.createPlan();
 
         return new ResponseEntity<>(planList, HttpStatus.OK);
     }
