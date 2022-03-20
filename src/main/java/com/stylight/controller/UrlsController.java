@@ -38,20 +38,21 @@ public class UrlsController {
         return new ResponseEntity<>(urlList, HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Bug> getBug(@PathVariable("id") UUID issueId) {
-//        Bug bug = null;
-//
-//        logger.info("Getting single bug for id: " + issueId);
-//        try {
-//            bug = bugsService.getBugById(issueId);
-//        } catch (Exception e) {
-//            logger.error("Error in getting bug for id: " + issueId + ", the error is :" + e.getLocalizedMessage(), e);
-//            throw e;
-//        }
-//
-//        return new ResponseEntity<>(bug, HttpStatus.OK);
-//    }
+    @GetMapping("/orderedParameters")
+    public ResponseEntity<List<Url>> getOrderedParameters(@RequestBody List<String> prettyUrls) throws Exception {
+        List<Url> urlList = null;
+
+        logger.info("Getting list of bugs");
+        try {
+            urlList = urlService.getOrderedParameters(prettyUrls);
+        } catch (Exception e)
+        {
+            logger.error("Error in getting bugs list, the error is :" + e.getLocalizedMessage(), e);
+            throw e;
+        }
+
+        return new ResponseEntity<>(urlList, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<Url> createMapping(@RequestBody Url url) {

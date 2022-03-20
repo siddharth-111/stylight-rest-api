@@ -1,26 +1,22 @@
 package com.stylight.service.serviceImpl;
 
-
 import com.stylight.entity.Url;
 import com.stylight.repository.UrlRepository;
 import com.stylight.service.serviceInterface.UrlService;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.http.client.utils.URLEncodedUtils;
 
-import static java.util.stream.Collectors.mapping;
 
 @RequiredArgsConstructor
 @Service
@@ -34,69 +30,161 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public List<Url> getPrettyUrl(List<String> orderedParameters) throws Exception {
+    public List<Url> getPrettyUrl(List<String> orderedParameters) throws Exception
+    {
         List<Url> prettyUrls = null;
 
         prettyUrls = orderedParameters.stream().map(orderedParameter -> {
 
-            Url url = urlRepository.findTopByOrderedParameter(orderedParameter);
+            Url mappedUrl = urlRepository.findTopByOrderedParameter(orderedParameter);
 
-            if(url == null)
+            if(mappedUrl == null)
             {
+                List<NameValuePair> queryParams = getQueryParams(orderedParameter);
 
-                List<NameValuePair> params = null;
-                try {
-                    params = URLEncodedUtils.parse(new URI(orderedParameter), String.valueOf(Charset.forName("UTF-8")));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                mappedUrl = getMappedUrlForOrderedParameter(orderedParameter, queryParams);
 
-                List<NameValuePair> outputParams = new ArrayList<>();
-                String baseUri = "";
-                URIBuilder uriBuilder = null;
-                try {
-                    uriBuilder = new URIBuilder(orderedParameter);
-                    uriBuilder.removeQuery();
-                    baseUri =  uriBuilder.build().toString();
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-
-                while(params.size() != 0)
+                if(mappedUrl == null)
                 {
-                    outputParams.add(params.remove(params.size() - 1));
-                    String temp = "";
-                    try {
-                        temp = params.size() != 0 ? baseUri + "?" + getQuery(params) : baseUri;
-
-                        url = (Url) urlRepository.findTopByOrderedParameter(temp);
-                        if(url != null)
-                        {
-                            url = (Url) url.clone();
-                            Collections.reverse(outputParams);
-                            url.setPrettyUrl(url.getPrettyUrl() + "?" + getQuery(outputParams));
-                            url.setOrderedParameter(orderedParameter);
-                            break;
-                        }
-
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if(url == null)
-                {
-                    url = new Url(orderedParameter, orderedParameter);
+                    mappedUrl = new Url(orderedParameter, orderedParameter);
                 }
             }
 
-            return url;
+            return mappedUrl;
         }).collect(Collectors.toList());
 
         return prettyUrls;
     }
 
-    private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
+    @Override
+    public List<Url> getOrderedParameters(List<String> prettyUrls)
+    {
+        List<Url> orderedParameters = null;
+
+        orderedParameters = prettyUrls.stream().map(prettyUrl -> {
+
+            Url mappedUrl = urlRepository.findTopByPrettyUrl(prettyUrl);
+
+            if(mappedUrl == null)
+            {
+                List<String> prettyUrlPathComponents = getPrettyUrlPathComponents(prettyUrl);
+
+                mappedUrl = getMappedUrlForPrettyUrl(prettyUrl, prettyUrlPathComponents);
+
+                if(mappedUrl == null)
+                {
+                    mappedUrl = new Url(prettyUrl, prettyUrl);
+                }
+            }
+            return mappedUrl;
+        }).collect(Collectors.toList());
+
+        return orderedParameters;
+    }
+
+    private Url getMappedUrlForOrderedParameter(String orderedParameter, List<NameValuePair> queryParams)
+    {
+        Url mappedUrl = null;
+        try {
+            String baseUri = getBaseUri(orderedParameter);
+
+            List<NameValuePair> residualQueryParams = new ArrayList<>();
+
+            while(queryParams.size() != 0)
+            {
+                residualQueryParams.add(queryParams.remove(queryParams.size() - 1));
+                String residualOrderedParameter = queryParams.size() != 0 ? baseUri + createQueryParamsString(queryParams) : baseUri;
+
+                mappedUrl = (Url) urlRepository.findTopByOrderedParameter(residualOrderedParameter);
+
+                if(mappedUrl != null)
+                {
+                    Collections.reverse(residualQueryParams);
+
+                    mappedUrl = (Url) mappedUrl.clone();
+                    mappedUrl.setPrettyUrl(mappedUrl.getPrettyUrl() + createQueryParamsString(residualQueryParams));
+                    mappedUrl.setOrderedParameter(orderedParameter);
+
+                    break;
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return mappedUrl;
+    }
+
+    private Url getMappedUrlForPrettyUrl(String prettyUrl, List<String> prettyUrlPathComponents)
+    {
+
+        Url mappedUrl = null;
+        try {
+            List<String> residualPathComponents = new ArrayList<>();
+
+            while(prettyUrlPathComponents.size() != 0)
+            {
+                residualPathComponents.add(prettyUrlPathComponents.remove(prettyUrlPathComponents.size() - 1));
+
+                StringBuilder residualPrettyUrlBuilder = new StringBuilder();
+
+                residualPrettyUrlBuilder.append("/");
+                residualPrettyUrlBuilder.append(String.join("/", prettyUrlPathComponents));
+                residualPrettyUrlBuilder.append("/");
+
+                mappedUrl = (Url) urlRepository.findTopByPrettyUrl(residualPrettyUrlBuilder.toString());
+
+                if(mappedUrl != null)
+                {
+                    mappedUrl = (Url) mappedUrl.clone();
+                    Collections.reverse(residualPathComponents);
+                    mappedUrl.setPrettyUrl(prettyUrl);
+
+                    String orderedParameter = mappedUrl.getOrderedParameter();
+                    List<NameValuePair> queryParams = getQueryParams(orderedParameter);
+
+                    String baseUri = getBaseUri(orderedParameter);
+
+                    baseUri += residualPathComponents.size() != 0 ? "/" + String.join("/", residualPathComponents) + createQueryParamsString(queryParams)
+                            : createQueryParamsString(queryParams);
+
+                    mappedUrl.setOrderedParameter(baseUri);
+
+                    break;
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return mappedUrl;
+
+    }
+
+    private List<String> getPrettyUrlPathComponents(String prettyUrl)
+    {
+        List<String> prettyUrlPathComponents = new LinkedList<>(Arrays.asList(prettyUrl.split("/")));
+        if(prettyUrlPathComponents.size() != 0)
+            prettyUrlPathComponents.remove(0);
+
+        return prettyUrlPathComponents;
+    }
+
+    private List<NameValuePair> getQueryParams(String url)
+    {
+        List<NameValuePair> params = null;
+        try {
+            params = URLEncodedUtils.parse(new URI(url), String.valueOf(Charset.forName("UTF-8")));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return params;
+    }
+
+    private String getQueryParamsAsString(List<NameValuePair> params) throws UnsupportedEncodingException
     {
         StringBuilder result = new StringBuilder();
         boolean first = true;
@@ -116,8 +204,24 @@ public class UrlServiceImpl implements UrlService {
         return result.toString();
     }
 
-    @Override
-    public List<Url> getOrderedParameters(List<String> prettyUrls) {
-        return null;
+    private String getBaseUri(String uri) throws URISyntaxException
+    {
+        String baseUri = "";
+        URIBuilder uriBuilder = null;
+        try {
+            uriBuilder = new URIBuilder(uri);
+            uriBuilder.removeQuery();
+            baseUri =  uriBuilder.build().toString();
+        } catch (URISyntaxException e) {
+            throw e;
+        }
+
+        return baseUri;
     }
+
+    private String createQueryParamsString( List<NameValuePair> queryParams) throws UnsupportedEncodingException
+    {
+        return "?" + getQueryParamsAsString(queryParams);
+    }
+
 }

@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface UrlRepository extends JpaRepository<Url, UUID> {
     Url findTopByOrderedParameter(String from);
-    Url findTopByPrettyUrlContaining(String to);
+    Url findTopByPrettyUrl(String to);
 }
