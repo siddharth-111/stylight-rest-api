@@ -1,4 +1,4 @@
-# Pinguin  Coding Challenge
+# Stylight Coding Challenge
 
 ## Content
 - Prerequisites
