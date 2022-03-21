@@ -6,6 +6,8 @@ import com.stylight.service.serviceInterface.UrlService;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -17,11 +19,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.http.client.utils.URLEncodedUtils;
 
-
 @RequiredArgsConstructor
 @Service
 public class UrlServiceImpl implements UrlService {
     private final UrlRepository urlRepository;
+
+    Logger logger = LoggerFactory.getLogger(UrlServiceImpl.class);
 
     @Override
     public Url createMapping(Url url)
@@ -110,6 +113,7 @@ public class UrlServiceImpl implements UrlService {
             }
         } catch (Exception e)
         {
+            logger.error("Error in getting mapped url for ordered parameter, the error is :" + e.getLocalizedMessage(), e);
             e.printStackTrace();
         }
 
@@ -156,6 +160,7 @@ public class UrlServiceImpl implements UrlService {
             }
         } catch (Exception e)
         {
+            logger.error("Error in getting mapped url for pretty url, the error is :" + e.getLocalizedMessage(), e);
             e.printStackTrace();
         }
 

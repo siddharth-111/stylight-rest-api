@@ -21,6 +21,7 @@ public class Url {
     {
 
     }
+
     public Url(String orderedParameter, String prettyUrl) {
         this.orderedParameter = orderedParameter;
         this.prettyUrl = prettyUrl;
